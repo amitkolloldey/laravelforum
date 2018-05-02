@@ -11,6 +11,8 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'HomeController@home')->name('home');
+
+Route::resource('/topic','TopicController')->middleware('authuser');
+
+Auth::routes();

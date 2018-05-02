@@ -1,0 +1,129 @@
+/*-----------------------------------------------------------------------------
+
+KENBURNER RESPONSIVE BASIC STYLES OF HTML DOCUMENT
+
+Screen Stylesheet
+
+version:   	1.0
+date:      	07/27/11
+author:		themepunch
+email:     	support@themepunch.com
+website:   	http://www.themepunch.com
+-----------------------------------------------------------------------------*/
+
+
+
+.boxedcontainer		{	max-width: 1170px; margin:auto; padding:0px 30px;}
+
+/*********************************************
+	-	SETTINGS FOR BANNER CONTAINERS	-
+**********************************************/
+
+.tp-banner-container{
+	width:100%;
+	position:relative;
+	padding:0;
+
+}
+
+.tp-banner{
+	width:100%;
+	position:relative;
+}
+
+.tp-banner-fullscreen-container {
+		width:100%;
+		position:relative;
+		padding:0;
+}
+.logo a {
+	font-size:  24px;
+	color:  #25D6D1;
+	padding: 5px;
+	border:  1px solid;
+	display: block;
+	margin-top: 10px;
+	text-decoration: none;
+}
+.lf_auth_links div {
+	text-align: right;
+	display: inline-block;
+}
+.lf_auth_links {
+	text-align: right;
+}
+.lf_auth_links a {
+	display: inline-block;
+	border:  1px solid #25D6D1;
+	margin: 0 5px;
+	color: #25D6D1;
+}
+a.nav-link.lf_new_topic_btn {
+	background:  #25D6D1;
+	color: #fff;
+}
+
+.headernav button.btn.btn-default {
+	background:  #25D6D1;
+	border: navajowhite;
+}
+
+.headernav input.form-control {
+	background: #ddd!important;
+	width: 100%;
+}
+
+.headernav .search .txt {
+	width: 88.5%;
+}
+
+.offset-md-2.col-md-8.lf_auth_form {}
+
+.lf_auth_form {
+	padding: 50px 0;
+}
+
+.lf_auth_form h2 {
+	color:  #25D6D1;
+	font-size:  28px;
+	margin: 20px 0;
+	text-align:  center;
+	border-bottom: 1px solid;
+	padding-bottom: 10px;
+}
+
+.btn.btn-primary {
+	background: #25D6D1!important;
+}
+.btn.btn-link {
+	color:  #25D6D1;
+	text-decoration: none;
+}
+.lf_page_title {
+	padding: 20px 0;
+	background: #ddd;
+	color: #25D6D1;
+	text-align: center;
+	margin: 20px 0;
+}
+.form-control {
+	padding: 10px;
+	font-size:  14px;
+	border: 1px solid #25D6D1;
+}
+
+.form-group label {
+	font-size:  14px;
+}
+
+.col-md-8.lf_topics_wrapper,.lf_sidebar_wrapper {
+	margin: 20px 0;
+}
+.page-item.active .page-link {
+	background-color: #25D6D1;
+	border-color: #25D6D1;
+}
+
+.page-item .page-link {
+	color: #25D6D1;
+}
