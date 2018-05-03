@@ -11,9 +11,11 @@
             <div class="topwrap">
                 <div class="userinfo pull-left">
                     <div class="avatar">
-                        <img src="images/avatar.jpg" alt="">
+                        <img src="images/avatar.jpg" alt="{{$topic->user->name}}">
                         <div class="status green">&nbsp;</div>
+                        <p class="lf_points">{{ count($topicsCount) }}</p>
                     </div>
+                    @if(Auth::check() && Auth::user()->id == $topic->user->id)
                     <div class="lf_icons">
                         <div class="lf_edit">
                             <a href="{{route('topic.edit',$topic->id)}}" title="{{__('Edit')}}"><i class="fa fa-edit"></i></a>
@@ -26,7 +28,7 @@
                             </form>
                         </div>
                     </div>
-
+                    @endif
                     <div class="icons">
                         <img src="images/icon1.jpg" alt=""><img src="images/icon4.jpg" alt=""><img src="images/icon5.jpg" alt=""><img src="images/icon6.jpg" alt="">
                     </div>
@@ -48,7 +50,7 @@
                     <a href="#"><i class="fa fa-reply"></i></a>
                 </div>
 
-                <div class="posted pull-left"><i class="fa fa-clock-o"></i> {{__($topic->created_at->diffForHumans())}}</div>
+                <div class="posted pull-left"><i class="fa fa-clock-o"></i> {{ $topic->created_at->diffForHumans()}}</div>
 
                 <div class="next pull-right">
                     <a href="#"><i class="fa fa-share"></i></a>

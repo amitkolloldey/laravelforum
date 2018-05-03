@@ -18,6 +18,7 @@
                         <img src="images/avatar.jpg" alt="">
                         <div class="status green">&nbsp;</div>
                     </div>
+                    @if(Auth::check() && Auth::user()->id == $topic->user->id)
                     <div class="lf_icons">
                         <div class="lf_edit">
                             <a href="{{route('topic.edit',$topic->id)}}" title="{{__('Edit')}}"><i class="fa fa-edit"></i></a>
@@ -30,6 +31,7 @@
                             </form>
                         </div>
                     </div>
+                    @endif
                     <div class="icons">
                         <img src="images/icon1.jpg" alt=""><img src="images/icon4.jpg" alt="">
                     </div>

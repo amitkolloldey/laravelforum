@@ -46,14 +46,13 @@ website:   	http://www.themepunch.com
 	text-decoration: none;
 }
 .lf_auth_links div {
-	text-align: right;
 	display: inline-block;
+	text-align: right;
 }
 .lf_auth_links {
 	text-align: right;
 }
 .lf_auth_links a {
-	display: inline-block;
 	border:  1px solid #25D6D1;
 	margin: 0 5px;
 	color: #25D6D1;
@@ -100,8 +99,7 @@ a.nav-link.lf_new_topic_btn {
 	text-decoration: none;
 }
 .lf_page_title {
-	padding: 20px 0;
-	background: #ddd;
+	padding: 10px 0;
 	color: #25D6D1;
 	text-align: center;
 	margin: 20px 0;
@@ -157,4 +155,50 @@ a.nav-link.lf_new_topic_btn {
 	border: none;
 	box-shadow: none;
 	outline: none;
+}
+p.lf_points {
+	text-align:  center;
+	background:  #25D6D1;
+	color:  #fff;
+	border-radius:  50%;
+	height: 30px;
+	width: 30px;
+	line-height:  30px;
+	margin: 10px 0!important;
+}
+.lf_wrap_content {
+	background-color: #ffffff;
+	border-radius: 2px;
+	box-shadow: 0 1px 2px #c9cccd;
+	margin-bottom: 20px;
+	padding: 15px ;
+	margin-top: 20px;
+}
+
+.lf_auth_links .nav-item.dropdown:hover .dropdown-menu {
+	display: block;
+	border-top: 1px solid #c9cccd;
+}
+
+.lf_auth_links .nav-item.dropdown .dropdown-menu {
+	display: none;
+	text-align: right;
+	right: 0;
+	float:  none;
+	top: 95%;
+	left: auto;
+	border: navajowhite;
+	border-radius:  0;
+	background:  #25D6D1;
+	color: #fff;
+}
+
+.lf_auth_links  a.dropdown-item {
+	color: #fff;
+	padding: 0 10px;
+	margin: 0;
+}
+
+.lf_auth_links a.dropdown-item:hover,.lf_auth_links a.dropdown-item:focus,.lf_auth_links a.dropdown-item:active {
+	background: none;
 }

@@ -3,10 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Topic;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TopicController extends Controller
 {
+    public function __construct()
+    {
+        return $this->middleware('auth')->except('index','show');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -40,10 +47,9 @@ class TopicController extends Controller
             'title' => 'required|unique:topics|min:20',
             'details' => 'required|min:20'
             ],
-            ['title.unique' => 'This Topic Is Already Posted.']
-            );
+            ['title.unique' => 'This Topic Is Already Posted.']);
 
-        $topic = Topic::create($request->all());
+        $topic = auth()->user()->topic()->create($request->all());
         return redirect(route('topic.show',$topic->id))->withMessage('Topic Has Been Created Successfully!');
     }
 
@@ -57,7 +63,8 @@ class TopicController extends Controller
     {
         $sureDelete = __('Are you sure want to Delete?');
         $topic = Topic::findOrFail($id);
-        return view('topics.show',compact('topic','sureDelete'));
+        $topicsCount = Topic::where('user_id', $topic->user->id)->get();
+        return view('topics.show',compact('topic','sureDelete','topicsCount'));
     }
 
     /**
@@ -69,6 +76,9 @@ class TopicController extends Controller
     public function edit($id)
     {
         $topic = Topic::findOrFail($id);
+        if(Auth::user()->id != $topic->user->id){
+            return redirect('/');
+        }
         return view('topics.edit',compact('topic'));
     }
 
@@ -81,6 +91,11 @@ class TopicController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $topic = Topic::findOrFail($id);
+        if(Auth::user()->id != $topic->user->id){
+            return redirect('/');
+        }
+
         $this->validate($request,
             [
                 'title' => 'required|min:20|unique:topics,title,'.$id,
@@ -88,7 +103,6 @@ class TopicController extends Controller
             ],
             ['title.unique' => 'This Topic Is Already Posted.']
         );
-        $topic = Topic::findOrFail($id);
         $topic->update($request->all());
         return redirect(route('topic.show',$id))->withMessage('Topic Has Been Updated Successfully!');
     }
@@ -102,6 +116,9 @@ class TopicController extends Controller
     public function destroy($id)
     {
         $topic = Topic::findOrFail($id);
+        if(Auth::user()->id != $topic->user->id){
+            return redirect('/');
+        }
         $topic->delete();
         return redirect('/')->withDanger('Topic Has Been Deleted!');
     }

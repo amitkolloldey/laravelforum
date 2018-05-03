@@ -13,6 +13,6 @@
 
 Route::get('/', 'HomeController@home')->name('home');
 
-Route::resource('/topic','TopicController')->middleware('authuser');
+Route::resource('/topic','TopicController');
 
 Auth::routes();
