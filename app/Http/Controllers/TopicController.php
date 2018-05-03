@@ -35,7 +35,16 @@ class TopicController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,
+            [
+            'title' => 'required|unique:topics|min:20',
+            'details' => 'required|min:20'
+            ],
+            ['title.unique' => 'This Topic Is Already Posted.']
+            );
+
+        $topic = Topic::create($request->all());
+        return redirect(route('topic.show',$topic->id))->withMessage('Topic Has Been Created Successfully!');
     }
 
     /**
@@ -46,7 +55,9 @@ class TopicController extends Controller
      */
     public function show($id)
     {
-        //
+        $sureDelete = __('Are you sure want to Delete?');
+        $topic = Topic::findOrFail($id);
+        return view('topics.show',compact('topic','sureDelete'));
     }
 
     /**
@@ -57,7 +68,8 @@ class TopicController extends Controller
      */
     public function edit($id)
     {
-        //
+        $topic = Topic::findOrFail($id);
+        return view('topics.edit',compact('topic'));
     }
 
     /**
@@ -69,7 +81,16 @@ class TopicController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request,
+            [
+                'title' => 'required|min:20|unique:topics,title,'.$id,
+                'details' => 'required|min:20'
+            ],
+            ['title.unique' => 'This Topic Is Already Posted.']
+        );
+        $topic = Topic::findOrFail($id);
+        $topic->update($request->all());
+        return redirect(route('topic.show',$id))->withMessage('Topic Has Been Updated Successfully!');
     }
 
     /**
@@ -80,6 +101,8 @@ class TopicController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $topic = Topic::findOrFail($id);
+        $topic->delete();
+        return redirect('/')->withDanger('Topic Has Been Deleted!');
     }
 }

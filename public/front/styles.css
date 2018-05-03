@@ -127,3 +127,34 @@ a.nav-link.lf_new_topic_btn {
 .page-item .page-link {
 	color: #25D6D1;
 }
+.alert.alert-success {
+	background:  #25D6D1;
+	color: #fff;
+	border: navajowhite;
+}
+
+.lf_icons {
+	margin:  10px 0;
+	text-align: center;
+	font-size:24px;
+
+}
+.lf_icons i{
+	cursor:pointer;
+}
+
+.lf_edit i {
+	color: #25D6D1;
+}
+
+.lf_del button {
+	background:none;
+	border:none;
+	color:#f48989
+
+}
+.lf_del button:active, .lf_del button:focus, .lf_del button:hover {
+	border: none;
+	box-shadow: none;
+	outline: none;
+}
