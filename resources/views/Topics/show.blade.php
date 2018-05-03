@@ -35,7 +35,7 @@
                 </div>
                 <div class="posttext pull-left">
                     <h2>{{$topic->title}}</h2>
-                    <p>{!! $topic->details !!}</p>
+                    {!!\Michelf\MarkdownExtra::defaultTransform($topic->details)!!}
                 </div>
                 <div class="clearfix"></div>
             </div>

@@ -20,6 +20,7 @@
     <link href="{{ asset('front/fontawesome.css') }}" rel="stylesheet">
     <link href="{{ asset('front/plugins.css') }}" rel="stylesheet">
     <link href="{{ asset('front/styles.css') }}" rel="stylesheet">
+    <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/rainbow.min.css" rel="stylesheet">
     @yield('styles')
 </head>
 <body>

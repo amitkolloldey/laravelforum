@@ -38,7 +38,7 @@
                 </div>
                 <div class="posttext pull-left">
                     <h2><a href="{{route('topic.show',$topic->id)}}">{{$topic->title}}</a></h2>
-                    <p>{{str_limit( $topic->details ,100)}}</p>
+                   {!! str_limit( \Michelf\Markdown::defaultTransform($topic->details),100)!!}
                 </div>
                 <div class="clearfix"></div>
             </div>

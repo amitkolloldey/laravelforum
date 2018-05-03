@@ -20,8 +20,9 @@
                     <input type="text" class="form-control" id="title" name="title" placeholder="{{__('Enter Title For The Topic')}}" value="{{old('title')}}">
                 </div>
                 <div class="form-group">
-                    <label for="details">{{__('Details')}}</label>
-                    <textarea class="form-control" id="details" rows="3" name="details">{{old('title')}}</textarea>
+                        <label for="details">{{__('Details')}}</label>
+                        <textarea id="details" class="form-control" name="details" rows="10">{{old('details')}}</textarea>
+                    <p><em>{{__('This Editor Supports Markdown Syntax.')}}<a target="_blank" href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">{{__('Please See More Here.')}}</a></em></p>
                 </div>
                 <div class="form-group">
                     <input type="submit" class="btn btn-primary" value="{{__('Submit Topic')}}">
@@ -29,6 +30,7 @@
             </form>
         </div>
     </div>
+
 @stop
 
 @section('sidebar')

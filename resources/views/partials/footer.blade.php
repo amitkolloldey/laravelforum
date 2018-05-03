@@ -17,7 +17,16 @@
 </footer>
 </div>
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="{{asset('front/jquery.js')}}"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 <script src="//stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('code,pre').each(function(i, block) {
+            hljs.highlightBlock(block);
+        });
+    });
+</script>
+
 </body>
 </html>
