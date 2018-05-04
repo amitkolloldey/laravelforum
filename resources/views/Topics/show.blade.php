@@ -35,12 +35,15 @@
                 </div>
                 <div class="posttext pull-left">
                     <h2>{{$topic->title}}</h2>
-                    {!!\Michelf\MarkdownExtra::defaultTransform($topic->details)!!}
+                    {!! $topic->details !!}
+
+                    @if($topic->code_id)
+                        {!! $code->block !!}
+                    @endif
                 </div>
                 <div class="clearfix"></div>
             </div>
             <div class="postinfobot">
-
                 <div class="likeblock pull-left">
                     <a href="#" class="up"><i class="fa fa-thumbs-o-up"></i>25</a>
                     <a href="#" class="down"><i class="fa fa-thumbs-o-down"></i>3</a>

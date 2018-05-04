@@ -22,7 +22,16 @@
                 <div class="form-group">
                         <label for="details">{{__('Details')}}</label>
                         <textarea id="details" class="form-control" name="details" rows="10">{{old('details')}}</textarea>
-                    <p><em>{{__('This Editor Supports Markdown Syntax.')}}<a target="_blank" href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">{{__('Please See More Here.')}}</a></em></p>
+                        <p><em>{{__('You can\'t paste code here. Use "Code" field for that.')}}</em></p>
+                </div>
+                <div class="form-group">
+                        <label for="block">{{__('Code')}}</label>
+                        <textarea id="code" class="form-control" name="block" rows="10">{{old('block')}}</textarea>
+                        <p><em>{{__('Paste Your code here.')}}</em></p>
+                </div>
+                <div class="form-group">
+                    {!! NoCaptcha::renderJs() !!}
+                    {!! NoCaptcha::display(['data-theme' => 'dark']) !!}
                 </div>
                 <div class="form-group">
                     <input type="submit" class="btn btn-primary" value="{{__('Submit Topic')}}">

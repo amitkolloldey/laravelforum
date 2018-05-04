@@ -202,3 +202,12 @@ p.lf_points {
 .lf_auth_links a.dropdown-item:hover,.lf_auth_links a.dropdown-item:focus,.lf_auth_links a.dropdown-item:active {
 	background: none;
 }
+
+code#code_output {
+	padding:  10px;
+	background:  #222222;
+	color: #ddd;
+	width:  100%;
+	display: block;
+	font-size: 14px;
+}

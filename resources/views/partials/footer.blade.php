@@ -18,14 +18,35 @@
 </div>
 
 <script src="{{asset('front/jquery.js')}}"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="{{asset('front/prism.js')}}"></script>
+<script src="//cdn.ckeditor.com/4.9.2/standard/ckeditor.js"></script>
 <script src="//stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script>
     $(document).ready(function() {
-        $('code,pre').each(function(i, block) {
-            hljs.highlightBlock(block);
+        // $('#code_block').each(function(i, block) {
+        //     hljs.highlightBlock(block);
+        // });
+        $(function() {
+            $source=$("#code");
+            $output=$("#code_output");
+            $source.keyup(function() {
+                $output.text($source.val());
+            });
         });
     });
+    CKEDITOR.replace( 'details', {
+        toolbar: [
+            { name: 'document', groups: [ 'mode', 'document', 'doctools' ], items: [ 'Source', '-', 'Save', 'NewPage', 'Preview', 'Print', '-', 'Templates' ] },
+
+            { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline',
+                    'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat' ] },
+            { name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
+            { name: 'insert', items: [ 'Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar',
+                    'PageBreak', 'Iframe' ] },
+        ],
+        uiColor: '#25D6D1'
+    });
+
 </script>
 
 </body>
