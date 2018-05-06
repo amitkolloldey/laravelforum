@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Code;
+use App\Comment;
 use App\Topic;
-use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -22,7 +21,7 @@ class TopicController extends Controller
      */
     public function index()
     {
-
+        return back();
     }
 
     /**
@@ -43,27 +42,19 @@ class TopicController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request->all());
-        $request_data = $request->only('title', 'details');
-        $request_code = $request->only('block');
-       // $request_code['block'] = str_replace('</xmp>', '< / xmp >', $request_code['block']);
+        $topic = auth()->user()->topic()->create($request->all());
         $this->validate($request,
             [
             'title' => 'required|unique:topics|min:20',
             'details' => 'required|min:20',
-            //'g-recaptcha-response' => 'required|captcha'
+             //'g-recaptcha-response' => 'required|captcha'
             ],
             ['title.unique' => 'This Topic Is Already Posted.']);
-        $code = Code::create([
-            'block' => $request_code['block']
-        ]);
-        $topic = auth()->user()->topic()->create([
-            'title' => $request_data['title'],
-            'details' => $request_data['details'],
-            'code_id' => $code->id,
-        ]);
-        return redirect(route('topic.show',$topic->id))->withMessage('Topic Has Been Created Successfully!');
+
+
+        return redirect(route('topic.show',$topic->id))->withMessage(__('Topic Has Been Created Successfully!'));
     }
+
 
     /**
      * Display the specified resource.
@@ -74,10 +65,11 @@ class TopicController extends Controller
     public function show($id)
     {
         $sureDelete = __('Are you sure want to Delete?');
+
+        $comments = Comment::where('commentable_id',$id)->orderBy('id', 'desc')->paginate(5);
         $topic = Topic::findOrFail($id);
-        $code = Code::findOrFail($topic->code_id);
         $topicsCount = Topic::where('user_id', $topic->user->id)->get();
-        return view('topics.show',compact('topic','sureDelete','topicsCount','code'));
+        return view('topics.show',compact('topic','sureDelete','topicsCount','comments'));
     }
 
     /**
@@ -89,12 +81,10 @@ class TopicController extends Controller
     public function edit($id)
     {
         $topic = Topic::findOrFail($id);
-        $code = Code::findOrFail($topic->code_id);
-
         if(Auth::user()->id != $topic->user->id){
             return redirect('/');
         }
-        return view('topics.edit',compact('topic','code'));
+        return view('topics.edit',compact('topic'));
     }
 
     /**
@@ -114,19 +104,13 @@ class TopicController extends Controller
         $this->validate($request,
             [
                 'title' => 'required|min:20|unique:topics,title,'.$id,
-                'details' => 'required|min:20'
+                'details' => 'required|min:20',
+                //'g-recaptcha-response' => 'required|captcha'
             ],
             ['title.unique' => 'This Topic Is Already Posted.']
         );
-        $code = Code::findOrFail($topic->code_id);
-        $code->update([
-            'block' => $request->block
-        ]);
-        $topic->update([
-            'title' => $request->title,
-            'details' => $request->details
-        ]);
-        return redirect(route('topic.show',$id))->withMessage('Topic Has Been Updated Successfully!');
+        $topic->update($request->all());
+        return redirect(route('topic.show',$id))->withMessage(__('Topic Has Been Updated Successfully!'));
     }
 
     /**
@@ -142,6 +126,6 @@ class TopicController extends Controller
             return redirect('/');
         }
         $topic->delete();
-        return redirect('/')->withDanger('Topic Has Been Deleted!');
+        return redirect('/')->withDanger(__('Topic Has Been Deleted!'));
     }
 }

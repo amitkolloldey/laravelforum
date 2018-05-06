@@ -5,17 +5,17 @@
         {{ $topics->links() }}
 
         @if (Session::has('danger'))
-            <div class="alert alert-danger">{{ __(Session::get('danger')) }}</div>
+            <div class="alert alert-danger">{{ Session::get('danger') }}</div>
         @endif
         @if (Session::has('message'))
-            <div class="alert alert-success">{{ __(Session::get('message')) }}</div>
+            <div class="alert alert-success">{{ Session::get('message') }}</div>
         @endif
         @forelse($topics as $topic)
         <div class="post">
             <div class="wrap-ut pull-left">
                 <div class="userinfo pull-left">
                     <div class="avatar">
-                        <img src="images/avatar.jpg" alt="">
+                        <img src="{{url('uploads/avater.png')}}" alt="">
                         <div class="status green">&nbsp;</div>
                     </div>
                     @if(Auth::check() && Auth::user()->id == $topic->user->id)
@@ -38,7 +38,7 @@
                 </div>
                 <div class="posttext pull-left">
                     <h2><a href="{{route('topic.show',$topic->id)}}">{{$topic->title}}</a></h2>
-                   {!! str_limit( \Michelf\Markdown::defaultTransform($topic->details),100)!!}
+                    <p>{!! str_limit(Michelf\Markdown::defaultTransform(strip_tags($topic->details)) ,100)  !!}</p>
                 </div>
                 <div class="clearfix"></div>
             </div>
