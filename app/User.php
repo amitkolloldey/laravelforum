@@ -33,7 +33,4 @@ class User extends Authenticatable
     }
 
 
-    public function comment(){
-        return $this->belongsTo('App\Comment');
-    }
 }

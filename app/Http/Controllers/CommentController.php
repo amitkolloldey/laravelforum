@@ -6,26 +6,26 @@ use App\Comment;
 use App\Topic;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 class CommentController extends Controller
 {
 
-    public function __construct()
-    {
-        return $this->middleware('auth');
-    }
-
     public function storeComment(Request $request,Topic $topic)
     {
-        $this->validate($request,[
-            'body' => 'required|min:10'
+        $validator = Validator::make($request->all(), [
+            'body' => 'required|min:20',
         ]);
-
+        if ($validator->fails()) {
+            Session::flash('commentcreateerror','Comment is Required and minimum 20 characters');
+            return redirect(route('topic.show',$topic->id.'#lf_comment_create_form'));
+        }
         $comment = new Comment();
         $comment->body = $request->body;
         $comment->user_id = Auth::user()->id;
         $topic->comments()->save($comment);
-        return back()->withMessage(__('Comment created'));
+        return redirect(route('topic.show',$topic->id.'#commentno'.$comment->id));
     }
 
 
@@ -38,9 +38,23 @@ class CommentController extends Controller
      * @param  \App\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Comment $comment)
+    public function update(Request $request, $id)
     {
-        //
+        $comment = Comment::findOrFail($id);
+        if(Auth::user()->id != $comment->user_id){
+            return redirect('/');
+        }
+        $validator = Validator::make($request->all(), [
+            'editcommentbody' => 'required|min:20',
+        ]);
+        if ($validator->fails()) {
+            Session::flash('editcommentbody'.$comment->id,'Comment is Required and minimum 20 characters');
+            return redirect(route('topic.show',$comment->commentable_id.'#commentno'.$comment->id));
+        }
+        $comment->update([
+            'body' => $request->editcommentbody,
+        ]);
+        return redirect(route('topic.show',$comment->commentable_id.'#commentno'.$comment->id));
     }
 
     /**
@@ -49,8 +63,14 @@ class CommentController extends Controller
      * @param  \App\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Comment $comment)
+    public function destroy($id)
     {
-        //
+        $commentdata = Comment::findOrFail($id);
+        if(Auth::user()->id != $commentdata->user_id){
+            return redirect('/');
+        }
+        $commentdata->delete();
+        Session::flash('commentmessage', "Comment Deleted");
+        return redirect(route('topic.show',$commentdata->commentable_id.'#lf_comments_wrap'));
     }
 }

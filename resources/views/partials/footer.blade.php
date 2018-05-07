@@ -17,11 +17,8 @@
 </footer>
 </div>
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="{{asset('front/bootstrap-markdown.js')}}"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script src="//stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 
+@yield('scripts')
 <script>
     $(document).ready(function() {
         $(' code').each(function(i, block) {

@@ -9,6 +9,8 @@ class Comment extends Model
     protected $fillable = [
         'body','user_id'
     ];
+
+
     /**
      * Get all of the owning commentable models.
      */
@@ -16,4 +18,11 @@ class Comment extends Model
     {
         return $this->morphTo();
     }
+
+
+    public function comment(){
+        return $this->belongsTo('App\Comment');
+    }
+
+
 }

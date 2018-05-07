@@ -18,7 +18,10 @@ website:   	http://www.themepunch.com
 /*********************************************
 	-	SETTINGS FOR BANNER CONTAINERS	-
 **********************************************/
-
+img {
+	max-width: 100%;
+	height: auto;
+}
 .tp-banner-container{
 	width:100%;
 	position:relative;
@@ -291,7 +294,8 @@ a.exit-fullscreen {
 }
 
 .avatar img {
-	width:  50px;
+	width: 50px;
+	max-width: 50px;
 }
 
 .lf_comment_list .posttext {
@@ -338,4 +342,36 @@ strong.lf_commenter_name span {
 
 .lf_comment_list .postinfobot {
 	padding: 0 10px;
+}
+
+.lf_topics_wrapper p {
+	margin: 0;
+}
+
+.lf_topics_wrapper .posttext h1, .lf_topics_wrapper .posttext p, .lf_topics_wrapper .posttext h2,.lf_topics_wrapper .posttext strong {
+	font-size: 14px;
+	font-weight: normal;
+	color: #666;
+	word-wrap: break-word;
+
+}
+.lf_topics_wrapper .posttext .lf_topic_title{
+	font-size: 20px;
+}
+a.lf_reply {
+	margin-left: 20px;
+	margin-top: 10px;
+	display: inline-block;
+}
+a.lf_reply i{
+	color: #000;
+}
+
+.lf_modal .md-controls {
+	display: none;
+}
+
+.lf_modal .alert {
+	font-size: 14px;
+	padding: 0;
 }

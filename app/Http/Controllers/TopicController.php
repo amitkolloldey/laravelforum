@@ -9,21 +9,6 @@ use Illuminate\Support\Facades\Auth;
 
 class TopicController extends Controller
 {
-    public function __construct()
-    {
-        return $this->middleware('auth')->except('index','show');
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        return back();
-    }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -42,16 +27,15 @@ class TopicController extends Controller
      */
     public function store(Request $request)
     {
-        $topic = auth()->user()->topic()->create($request->all());
         $this->validate($request,
             [
             'title' => 'required|unique:topics|min:20',
-            'details' => 'required|min:20',
+            'details' => 'required|min:100',
              //'g-recaptcha-response' => 'required|captcha'
             ],
             ['title.unique' => 'This Topic Is Already Posted.']);
 
-
+        $topic = auth()->user()->topic()->create($request->all());
         return redirect(route('topic.show',$topic->id))->withMessage(__('Topic Has Been Created Successfully!'));
     }
 
@@ -126,6 +110,6 @@ class TopicController extends Controller
             return redirect('/');
         }
         $topic->delete();
-        return redirect('/')->withDanger(__('Topic Has Been Deleted!'));
+        return redirect('/')->withMessage(__('Topic Has Been Deleted!'));
     }
 }

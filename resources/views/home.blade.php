@@ -37,7 +37,7 @@
                     </div>
                 </div>
                 <div class="posttext pull-left">
-                    <h2><a href="{{route('topic.show',$topic->id)}}">{{$topic->title}}</a></h2>
+                    <h2 class="lf_topic_title"><a href="{{route('topic.show',$topic->id)}}">{{$topic->title}}</a></h2>
                     <p>{!! str_limit(Michelf\Markdown::defaultTransform(strip_tags($topic->details)) ,100)  !!}</p>
                 </div>
                 <div class="clearfix"></div>
@@ -45,7 +45,7 @@
             <div class="postinfo pull-left">
                 <div class="comments">
                     <div class="commentbg">
-                        560
+                        {{$topic->comments()->count()}}
                         <div class="mark"></div>
                     </div>
 

@@ -23,6 +23,12 @@
     <link href="{{ asset('front/plugins.css') }}" rel="stylesheet">
     <link href="{{ asset('front/styles.css') }}" rel="stylesheet">
     @yield('styles')
+
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="{{asset('front/bootstrap-markdown.js')}}"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script src="//stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 </head>
 <body>
 <div class="container-fluid">
