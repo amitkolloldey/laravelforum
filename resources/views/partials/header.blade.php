@@ -16,12 +16,12 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{asset('front/prism.css')}}" rel="stylesheet">
     <link href="{{ asset('front/custom.css') }}" rel="stylesheet">
+    <link href="{{ asset('front/rainbow.css') }}" rel="stylesheet">
+    <link href="{{ asset('front/bootstrap-markdown.min.css') }}" rel="stylesheet">
     <link href="{{ asset('front/fontawesome.css') }}" rel="stylesheet">
     <link href="{{ asset('front/plugins.css') }}" rel="stylesheet">
     <link href="{{ asset('front/styles.css') }}" rel="stylesheet">
-    <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/rainbow.min.css" rel="stylesheet">
     @yield('styles')
 </head>
 <body>
