@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
-use Xetaio\Mentions\Parser\MentionParser;
 
 class CommentController extends Controller
 {
@@ -28,6 +27,24 @@ class CommentController extends Controller
         $comment->user_id = Auth::user()->id;
         $comment = $topic->comments()->save($comment);
         return redirect(route('topic.show',$topic->id.'#commentno'.$comment->id));
+    }
+
+
+    public function storeReply(Request $request,Comment $comment)
+    {
+        $validator = Validator::make($request->all(), [
+            'replybody' => 'required|min:20',
+        ]);
+        if ($validator->fails()) {
+            Session::flash('replybody'.$comment->id,'Reply is Required and minimum 20 characters');
+            return redirect(route('topic.show',$comment->commentable_id.'#commentno'.$comment->id));
+        }
+
+        $reply = new Comment();
+        $reply->body = $request->replybody;
+        $reply->user_id = Auth::user()->id;
+        $reply->comments()->save($reply);
+        return redirect(route('topic.show',$topic->id.'#replyno'.$comment->id));
     }
 
 

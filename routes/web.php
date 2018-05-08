@@ -18,6 +18,7 @@ Route::group(['middleware' => ['auth']], function () {
     ('show');
     Route::resource('/comment','CommentController',['only'=>['update','destroy']]);
     Route::post('/topic/comment/create/{topic}','CommentController@storeComment')->name('topic.comment.create');
+    Route::post('/topic/comment/reply/create/{comment}','CommentController@storeReply')->name('topic.reply.create');
 });
 
 Auth::routes();

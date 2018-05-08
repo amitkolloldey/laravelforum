@@ -21,9 +21,7 @@
                     </div>
                 </div>
             @endforelse
-
            {{$comments->fragment('lf_comments_wrap')->links()}}
-
             @if(Auth::check())
                 @include('partials.commentform')
             @else
@@ -35,7 +33,6 @@
             @endif
         </div>
     </div>
-
 @stop
 @section('sidebar')
     @include('partials.sidebar')

@@ -29,7 +29,7 @@
             @endif
             <div class="posted pull-left">
                 <i class="fa fa-clock-o"></i> {{ $comment->created_at->diffForHumans()}}
-                @include('partials')
+                @include('partials.replyform')
             </div>
         </div>
     </div>
