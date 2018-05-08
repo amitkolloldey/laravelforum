@@ -34,7 +34,6 @@ class TopicController extends Controller
              //'g-recaptcha-response' => 'required|captcha'
             ],
             ['title.unique' => 'This Topic Is Already Posted.']);
-
         $topic = auth()->user()->topic()->create($request->all());
         return redirect(route('topic.show',$topic->id))->withMessage(__('Topic Has Been Created Successfully!'));
     }
@@ -52,6 +51,7 @@ class TopicController extends Controller
 
         $comments = Comment::where('commentable_id',$id)->orderBy('id', 'desc')->paginate(5);
         $topic = Topic::findOrFail($id);
+        $topic->addPageView();
         $topicsCount = Topic::where('user_id', $topic->user->id)->get();
         return view('topics.show',compact('topic','sureDelete','topicsCount','comments'));
     }

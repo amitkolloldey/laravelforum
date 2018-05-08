@@ -2,10 +2,14 @@
 
 namespace App;
 
+use CyrildeWit\PageViewCounter\Traits\HasPageViewCounter;
 use Illuminate\Database\Eloquent\Model;
 
 class Topic extends Model
 {
+
+    use HasPageViewCounter;
+
     protected $fillable = [
         'title','details','user_id'
     ];

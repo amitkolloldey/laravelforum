@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use Xetaio\Mentions\Parser\MentionParser;
 
 class CommentController extends Controller
 {
@@ -21,10 +22,16 @@ class CommentController extends Controller
             Session::flash('commentcreateerror','Comment is Required and minimum 20 characters');
             return redirect(route('topic.show',$topic->id.'#lf_comment_create_form'));
         }
+
         $comment = new Comment();
         $comment->body = $request->body;
         $comment->user_id = Auth::user()->id;
-        $topic->comments()->save($comment);
+        $comment = $topic->comments()->save($comment);
+        // Register a new Parser and parse the content.
+        $parser = new MentionParser($comment);
+        $content = $parser->parse($comment->body);
+        $comment->body = $content;
+        $comment->save();
         return redirect(route('topic.show',$topic->id.'#commentno'.$comment->id));
     }
 

@@ -50,8 +50,8 @@
                     </div>
 
                 </div>
-                <div class="views"><i class="fa fa-eye"></i> 1,568</div>
-                <div class="time"><i class="fa fa-clock-o"></i>{{ $topic->created_at->diffForHumans()}}</div>
+                <div class="views"><i class="fa fa-eye"></i> {{$topic->getPageViews()}}</div>
+                <div class="time"><i class="fa fa-clock-o"></i> {{ $topic->created_at->diffForHumans()}}</div>
             </div>
             <div class="clearfix"></div>
         </div>
