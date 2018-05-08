@@ -27,11 +27,6 @@ class CommentController extends Controller
         $comment->body = $request->body;
         $comment->user_id = Auth::user()->id;
         $comment = $topic->comments()->save($comment);
-        // Register a new Parser and parse the content.
-        $parser = new MentionParser($comment);
-        $content = $parser->parse($comment->body);
-        $comment->body = $content;
-        $comment->save();
         return redirect(route('topic.show',$topic->id.'#commentno'.$comment->id));
     }
 

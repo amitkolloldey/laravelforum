@@ -16,19 +16,22 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('front/custom.css') }}" rel="stylesheet">
+
     <link href="{{ asset('front/rainbow.css') }}" rel="stylesheet">
     <link href="{{ asset('front/bootstrap-markdown.min.css') }}" rel="stylesheet">
     <link href="{{ asset('front/fontawesome.css') }}" rel="stylesheet">
     <link href="{{ asset('front/plugins.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('front/custom.css') }}" rel="stylesheet">
     <link href="{{ asset('front/styles.css') }}" rel="stylesheet">
+
     @yield('styles')
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="{{asset('front/bootstrap-markdown.js')}}"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-    <script src="//stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
 </head>
 <body>
 <div class="container-fluid">

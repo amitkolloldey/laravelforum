@@ -14,7 +14,8 @@
 Route::get('/', 'HomeController@home')->name('home');
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::resource('/topic','TopicController',['only'=>['create','show','edit','update','destroy']])->except('show');
+    Route::resource('/topic','TopicController',['only'=>['create','store','show','edit','update','destroy']])->except
+    ('show');
     Route::resource('/comment','CommentController',['only'=>['update','destroy']]);
     Route::post('/topic/comment/create/{topic}','CommentController@storeComment')->name('topic.comment.create');
 });

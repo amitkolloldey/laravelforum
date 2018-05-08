@@ -17,7 +17,6 @@
 @stop
 @section('content')
     <div class="offset-md-2 col-md-8 lf_auth_form lf_wrap_content">
-        <h2 >{{__('Reset Password')}}</h2>
         @include('partials.resetform')
     </div>
 @stop

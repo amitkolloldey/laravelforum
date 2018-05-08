@@ -16,8 +16,11 @@
     </style>
 @stop
 @section('content')
-    <div class="offset-md-2 col-md-8 lf_auth_form lf_wrap_content">
-        <h2>{{__('Login Here')}}</h2>
-        @include('partials.loginform')
+<div class="container">
+    <div class="row">
+        <div class="offset-md-2 col-md-8 lf_auth_form lf_wrap_content">
+            @include('partials.loginform')
+        </div>
     </div>
-@stop
+</div>
+@endsection

@@ -18,6 +18,7 @@ website:   	http://www.themepunch.com
 /*********************************************
 	-	SETTINGS FOR BANNER CONTAINERS	-
 **********************************************/
+
 img {
 	max-width: 100%;
 	height: auto;
@@ -135,10 +136,10 @@ a.nav-link.lf_new_topic_btn {
 }
 
 .lf_icons {
-	margin:  10px 0;
+	margin: 10px 0;
 	text-align: center;
-	font-size:24px;
-
+	font-size: 24px;
+	position: absolute;
 }
 .lf_icons i{
 	cursor:pointer;
@@ -324,21 +325,24 @@ strong.lf_commenter_name span {
 .lf_comment_list .userinfo {
 	display: inline-block;
 	padding: 0;
+	position: relative;
 }
-
 .lf_comment_list .lf_icons.pull-right {
 	width: 50%;
 	margin: 0;
 }
 
-.lf_comment_list .posted.pull-left {
-	width: 50%;
+.lf_comment_list .lf_icons.pull-right {
+	width: auto;
 	margin: 0;
+	right: 0;
+	top: 50%;
+}
+.lf_comment_list .lf_icons.pull-right i{
+	font-size: 18px;
+	padding: 5px;
 }
 
-.lf_comment_list .lf_del.pull-right {
-	margin-top: -3px;
-}
 
 .lf_comment_list .postinfobot {
 	padding: 0 10px;
@@ -374,4 +378,30 @@ a.lf_reply i{
 .lf_modal .alert {
 	font-size: 14px;
 	padding: 0;
+}
+
+.lf_topics_wrapper .next.pull-right,.lf_topics_wrapper .next.pull-right .posted {
+	width: auto;
+}
+
+.lf_edit,.lf_del {
+	line-height: 0;
+	font-size:  16px;
+	text-align: left;
+}
+.lf_del button {
+	padding: 0;
+	margin-top: -2px;
+}
+.headernav .search button {
+	font-size: 17px;
+}
+
+
+a,a:hover,a:focus,a:active {
+	color: #25D6D1;
+	text-decoration: none;
+}
+a:visited{
+	color: #29a19d;
 }
