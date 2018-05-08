@@ -300,7 +300,10 @@ a.exit-fullscreen {
 }
 
 .lf_comment_list .posttext {
-	padding: 20px;
+	padding: 10px;
+}
+.lf_comment_list .postinfobot {
+	line-height: 30px;
 }
 
 .lf_comment_list .userinfo {
@@ -377,9 +380,9 @@ a.lf_reply i{
 
 .lf_modal .alert {
 	font-size: 14px;
-	padding: 0;
+	padding: 10px 15px;
+	line-height: 20px;
 }
-
 .lf_topics_wrapper .next.pull-right,.lf_topics_wrapper .next.pull-right .posted {
 	width: auto;
 }
@@ -404,4 +407,16 @@ a,a:hover,a:focus,a:active {
 }
 a:visited{
 	color: #29a19d;
+}
+
+.lf_comment_list .posttext {
+	width: 100%;
+}
+.post.lf_comment_list.lf_reply_list {
+	background: #f7f7f7;
+	margin-left: 20px;
+}
+
+.lf_comment_list.lf_reply_list .avatar {
+	margin-bottom: 10px;
 }

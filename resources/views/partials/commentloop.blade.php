@@ -29,8 +29,18 @@
             @endif
             <div class="posted pull-left">
                 <i class="fa fa-clock-o"></i> {{ $comment->created_at->diffForHumans()}}
+                @if($comment->comments()->count() > 0)
+                <a href="#lf_reply{{$comment->id}}" data-toggle="collapse" role="button" aria-expanded="false"
+                   aria-controls="lf_reply">{{__('View Replies '.$comment->comments()->count()) }}</a>
+                @endif
                 @include('partials.replyform')
             </div>
         </div>
     </div>
+    <div class="collapse" id="lf_reply{{$comment->id}}">
+    @foreach($comment->comments as $reply)
+            @include('partials.replyloop')
+    @endforeach
+    </div>
 </div>
+

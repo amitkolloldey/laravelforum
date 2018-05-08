@@ -25,6 +25,11 @@ class Comment extends Model
         return $this->belongsTo('App\User');
     }
 
+
+    public function topic(){
+        return $this->belongsTo('App\Topic');
+    }
+
     /**
      * Get all of the Comment's replies.
      */
