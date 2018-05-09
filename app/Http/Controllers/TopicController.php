@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Comment;
+use App\Like;
 use App\Topic;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
 
 class TopicController extends Controller
 {
@@ -49,11 +51,18 @@ class TopicController extends Controller
     {
         $sureDelete = __('Are you sure want to Delete?');
 
-        $comments = Comment::where('commentable_id',$id)->orderBy('id', 'desc')->paginate(5);
+        $comments = Comment::where('commentable_id',$id)->orderBy('id', 'asc')->paginate(5);
         $topic = Topic::findOrFail($id);
         $topic->addPageView();
         $topicsCount = Topic::where('user_id', $topic->user->id)->get();
-        return view('topics.show',compact('topic','sureDelete','topicsCount','comments'));
+        if($topic->likes()->count() > 0){
+            $like = Like::where('likeable_id', $topic->id)->first();
+            $liked_user = $like->user_id;
+        }else{
+            $liked_user = 0;
+        }
+
+        return view('topics.show',compact('topic','sureDelete','topicsCount','comments','liked_user'));
     }
 
     /**
@@ -112,4 +121,27 @@ class TopicController extends Controller
         $topic->delete();
         return redirect('/')->withMessage(__('Topic Has Been Deleted!'));
     }
+
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function bestAnswer()
+    {
+        $commentId = Input::get('commentId');
+        $topicId = Input::get('topicId');
+        $topic = Topic::find($topicId);
+        $topic->best_answer = $commentId;
+        if ($topic->save()) {
+            if (request()->ajax()) {
+                return response()->json(['status' => 'success', 'message' => 'marked as best answer.']);
+            }
+        }
+        return back()->withMessage('Marked as Best Answer.');
+    }
+
+
 }

@@ -33,4 +33,13 @@ class Topic extends Model
     {
         return $this->morphMany('App\Comment', 'commentable');
     }
+
+
+    /**
+     * Get all of the Like's.
+     */
+    public function likes()
+    {
+        return $this->morphMany('App\Like', 'likeable');
+    }
 }

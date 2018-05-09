@@ -11,7 +11,6 @@
     </div>
     <div class="postinfobot">
         <div class="userinfo">
-
             @if(Auth::check() && Auth::user()->id == $comment->user_id)
                 <div class="lf_icons pull-right">
                     <div class="lf_edit pull-right">
@@ -27,13 +26,26 @@
                     <div class="clearfix"></div>
                 </div>
             @endif
-            <div class="posted pull-left">
-                <i class="fa fa-clock-o"></i> {{ $comment->created_at->diffForHumans()}}
+            <div class="posted pull-left" >
+                <span class=" pull-left"><i class="fa fa-clock-o"></i>{{ $comment->created_at->diffForHumans()}}</span>
                 @if($comment->comments()->count() > 0)
-                <a href="#lf_reply{{$comment->id}}" data-toggle="collapse" role="button" aria-expanded="false"
-                   aria-controls="lf_reply">{{__('View Replies '.$comment->comments()->count()) }}</a>
+                    <span> | </span>
+                <a href="#lf_reply{{$comment->id}}" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="lf_reply"> {{__('View Replies '.$comment->comments()->count()) }}</a>
                 @endif
-                @include('partials.replyform')
+                @if(Auth::check())
+                    <div class="pull-left">
+                        @include('partials.replyform')
+                    </div>
+                @endif
+                @if(Auth::check() && Auth::user()->id == $topic->user->id)
+                <div class="lf_ba pull-left" >
+                    @if($topic->best_answer == $comment->id)
+                        <a href="#" title="{{__('Marked As Best Answer')}}" onclick="event.preventDefault();bestAnswer('{{$topic->id}}','{{$comment->id}}',this)"><i class="fa fa-check-circle"></i></a>
+                    @else
+                        <a href="#" title="{{__('Mark As Best Answer')}}" onclick="event.preventDefault();bestAnswer('{{$topic->id}}','{{$comment->id}}',this)"><i class="fa fa-check-circle-o"></i></a>
+                    @endif
+                </div>
+                @endif
             </div>
         </div>
     </div>
@@ -43,4 +55,21 @@
     @endforeach
     </div>
 </div>
+@section('scripts')
+    <script>
+        function bestAnswer(topicId, commentId, elem) {
+            var csrfToken='{{csrf_token()}}';
+            $.post('{{route('bestAnswer')}}', {commentId: commentId, topicId: topicId,_token:csrfToken}, function (data) {
+                $(elem).html('<i class="fa fa-check-circle"></i>');
+                location.reload();
+            });}
 
+        function like(topicId, elem) {
+            var csrfToken='{{csrf_token()}}';
+            $.post('{{route('likeTopic')}}', {topicId: topicId,_token:csrfToken}, function
+                (data) {
+                $(elem).addClass(' liked');
+                location.reload();
+            });}
+    </script>
+@endsection

@@ -19,9 +19,6 @@
                     </div>
                 </div>
             @endif
-            <div class="icons">
-                <img src="images/icon1.jpg" alt=""><img src="images/icon4.jpg" alt="">
-            </div>
         </div>
         <div class="posttext pull-left">
             <h2 class="lf_topic_title"><a href="{{route('topic.show',$topic->id)}}">{{$topic->title}}</a></h2>
@@ -32,10 +29,9 @@
     <div class="postinfo pull-left">
         <div class="comments">
             <div class="commentbg">
-                {{$topic->comments()->count()}}
+                <a href="{{route('topic.show',$topic->id).'#lf_comments_wrap'}}">{{$topic->comments()->count()}}</a>
                 <div class="mark"></div>
             </div>
-
         </div>
         <div class="views"><i class="fa fa-eye"></i> {{$topic->getPageViews()}}</div>
         <div class="time"><i class="fa fa-clock-o"></i> {{ $topic->created_at->diffForHumans()}}</div>

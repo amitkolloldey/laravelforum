@@ -14,12 +14,16 @@
 Route::get('/', 'HomeController@home')->name('home');
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::resource('/topic','TopicController',['only'=>['create','store','show','edit','update','destroy']])->except('show');
-    Route::resource('/comment','CommentController',['only'=>['show','update','destroy']]);
+    Route::resource('/topic','TopicController',['except' => ['show']]);
+    Route::resource('/comment','CommentController',['except' => ['show']]);
     Route::post('/topic/comment/create/{topic}','CommentController@storeComment')->name('topic.comment.create');
     Route::post('/topic/comment/reply/create/{comment}','CommentController@storeReply')->name('topic.reply.create');
     Route::PATCH('/comment/reply/update/{id}','CommentController@replyUpdate')->name('reply.update');
     Route::DELETE('/comment/reply/delete/{id}','CommentController@replyDestroy')->name('reply.delete');
+    Route::post('/topic/comment/bestanswer','TopicController@bestAnswer')->name('bestAnswer');
+    Route::post('/topic/likeTopic','LikeController@likeTopic')->name('likeTopic');
 });
+Route::resource('/topic','TopicController',['only'=>['create','store','show','edit','update','destroy']]);
+Route::resource('/comment','CommentController',['only'=>['show','update','destroy']]);
 
 Auth::routes();

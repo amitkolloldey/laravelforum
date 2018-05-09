@@ -20,9 +20,6 @@
                     </div>
                 </div>
             @endif
-            <div class="icons">
-                <img src="images/icon1.jpg" alt=""><img src="images/icon4.jpg" alt=""><img src="images/icon5.jpg" alt=""><img src="images/icon6.jpg" alt="">
-            </div>
         </div>
         <div class="posttext pull-left">
             <h2 class="lf_topic_title">{{$topic->title}}</h2>
@@ -33,12 +30,20 @@
     <div class="postinfobot">
 
         <div class="likeblock pull-left">
-            <a href="#" class="up"><i class="fa fa-thumbs-o-up"></i>25</a>
-            <a href="#" class="down"><i class="fa fa-thumbs-o-down"></i>3</a>
+                @if( $liked_user != Auth::id())
+                <a href="#" class="up" title="{{__('Unlike It')}}" onclick="event.preventDefault();like
+                        ('{{$topic->id}}',this)"><i class="fa fa-thumbs-o-up"></i> {{$topic->likes()->count()}}</a>
+                @else
+                <a href="#" class="up" title="{{__('Like It')}}" onclick="event.preventDefault();like('{{$topic->id}}',
+                        this)"><i class="fa fa-thumbs-up"></i> {{$topic->likes()->count()}}</a>
+                @endif
+        </div>
+        <div class="likeblock pull-left">
+            <span>    </span>
         </div>
 
-        <div class="prev pull-left">
-            <i class="fa fa-comment"></i> {{$topic->comments()->count()}}
+        <div class="likeblock pull-left">
+            <a href="#lf_comments_wrap" class="up"><i class="fa fa-comment"></i>{{$topic->comments()->count()}}</a>
         </div>
 
         <div class="next pull-right">

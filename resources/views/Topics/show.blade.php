@@ -12,9 +12,10 @@
             @if (Session::has('commentmessage'))
                 <div class="alert alert-success">{{ Session::get('commentmessage') }}</div>
             @endif
-            @forelse($comments as $comment)
-                @include('partials.commentloop')
-            @empty
+                @forelse($comments as $comment)
+                    @include('partials.commentloop')
+                @empty
+
                 <div class="post">
                     <div class="alert alert-info">
                         {{__('Become first one to comment on this topic?')}}

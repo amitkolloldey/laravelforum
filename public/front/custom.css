@@ -481,7 +481,6 @@ td.chbox {
     background-color: #bdc3c7;
     border-radius: 2px;
     display: inline-block;
-    padding: 12px 17px;
     color: #ffffff;
     font-size: 14px;
     font-family: 'Open Sans Bold', sans-serif; 
@@ -566,11 +565,11 @@ td.chbox {
 
 
 .postinfobot .likeblock {
-    width: 120px;
+    width: auto;
 }
 
 .postinfobot .prev {
-    width: 30px;
+    width: auto;
 }
 
 .postinfobot .prev a {
@@ -993,7 +992,6 @@ a.down:hover {
 
     .post .comments .commentbg {
         font-size: 12px;
-        padding: 7px;
         min-width: 35px;
     }
     .post .time i {
@@ -1130,7 +1128,6 @@ a.down:hover {
 
     .post .comments .commentbg {
         font-size: 12px;
-        padding: 7px;
         min-width: 35px;
     }
     .post .time i {
