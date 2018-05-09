@@ -32,7 +32,11 @@ class User extends Authenticatable
         return $this->hasMany('App\Topic');
     }
 
+    public function comment(){
+        return $this->hasMany('App\Comment');
+    }
+
     public function like(){
-        return $this->hasMany('App\Like');
+        return $this->hasOne('App\Like');
     }
 }

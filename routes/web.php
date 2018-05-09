@@ -22,6 +22,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::DELETE('/comment/reply/delete/{id}','CommentController@replyDestroy')->name('reply.delete');
     Route::post('/topic/comment/bestanswer','TopicController@bestAnswer')->name('bestAnswer');
     Route::post('/topic/likeTopic','LikeController@likeTopic')->name('likeTopic');
+    Route::get('/user/{id}','UserProfileController@show')->name('user.show');
 });
 Route::resource('/topic','TopicController',['only'=>['create','store','show','edit','update','destroy']]);
 Route::resource('/comment','CommentController',['only'=>['show','update','destroy']]);

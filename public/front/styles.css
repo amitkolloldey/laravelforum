@@ -444,3 +444,30 @@ a:visited{
 .lf_ba i {
 	color: #25D6D1!important;
 }
+
+.lf_user_profile_feed h2 {
+	font-size:  20px;
+	border-bottom:  1px solid;
+	padding-bottom: 10px;
+}
+
+.lf_user_topics ul {
+	margin:  0;
+	padding:  0;
+	list-style:  none;
+	font-size: 16px;
+}
+.lf_user_topics ul a{
+	color:#25D6D1;
+}
+
+.lf_user_topics ul li{
+	padding: 5px 0;
+}
+
+.lf_user_topics {
+	padding: 20px 0;
+}
+.lf_user_topics h3 {
+	font-size: 20px;
+}
