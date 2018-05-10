@@ -55,3 +55,21 @@
         <div class="clearfix"></div>
     </div>
 </div>
+@section('scripts')
+    <script>
+        function bestAnswer(topicId, commentId, elem) {
+            var csrfToken='{{csrf_token()}}';
+            $.post('{{route('bestAnswer')}}', {commentId: commentId, topicId: topicId,_token:csrfToken}, function (data) {
+                $(elem).html('<i class="fa fa-check-circle"></i>');
+                location.reload();
+            });}
+
+        function like(topicId, elem) {
+            var csrfToken='{{csrf_token()}}';
+            $.post('{{route('likeTopic')}}', {topicId: topicId,_token:csrfToken}, function
+                (data) {
+                $(elem).addClass(' liked');
+                location.reload();
+            });}
+    </script>
+@endsection
