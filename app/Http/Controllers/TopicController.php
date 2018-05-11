@@ -118,6 +118,13 @@ class TopicController extends Controller
         if(Auth::user()->id != $topic->user->id){
             return redirect('/');
         }
+
+        $comments = Comment::where('commentable_id',$topic->id)->get();
+        foreach($comments as $comment){
+            Comment::where('commentable_id',$comment->id)->delete();
+        }
+        Comment::where('commentable_id',$topic->id)->delete();
+        Like::where('likeable_id',$topic->id)->delete();
         $topic->delete();
         return redirect('/')->withMessage(__('Topic Has Been Deleted!'));
     }

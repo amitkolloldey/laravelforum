@@ -133,6 +133,10 @@ class CommentController extends Controller
         if(Auth::user()->id != $commentdata->user_id){
             return redirect('/');
         }
+        $comments = Comment::where('commentable_id',$id)->get();
+        foreach ($comments as $comment){
+            Comment::where('id',$comment->id)->delete();
+        }
         $commentdata->delete();
         Session::flash('commentmessage', "Comment Deleted");
         return redirect(route('topic.show',$commentdata->commentable_id.'#lf_comments_wrap'));

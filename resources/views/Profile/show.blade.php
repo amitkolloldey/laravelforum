@@ -25,22 +25,39 @@
                                     @empty
                                      <li>{{__('No Topic Created By ').$user->name}}</li>
                                     @endforelse
-                                    {{ $topics->links() }}
+                                    {{ $topics->fragment('lf_user_topics')->links() }}
                              </ul>
                          </div>
                          <div class="lf_user_topics" id="lf_user_comments">
                              <h3>{{__('Commented')}}</h3>
                              <ul>
-                                @forelse($comments as $comment)
-                                    <li><a href="{{route('topic.show',$comment->commentable_id)
-                                    }}">{!! str_limit(Michelf\Markdown::defaultTransform(strip_tags
-                                    ($comment->body))
-                                    ,100)
-                                    !!}</a></li>
+                                @forelse($commented_topics as $commented_topic)
+                                    <li>
+                                        <a href="{{route('topic.show',$commented_topic->id)}}">
+                                            {!! $commented_topic->title !!}
+                                        </a>
+                                        <p>{!! Michelf\Markdown::defaultTransform(strip_tags($commented_topic->body))  !!}</p>
+                                    </li>
                                     @empty
                                      <li>{{__('No Comment By ').$user->name}}</li>
                                     @endforelse
-                                    {{ $comments->links() }}
+                                    {{ $commented_topics->fragment('lf_user_comments')->links() }}
+                             </ul>
+                         </div>
+                     </div>
+                         <div class="lf_user_topics" id="lf_user_likes">
+                             <h3>{{__('Liked')}}</h3>
+                             <ul>
+                                @forelse($liked_topics as $liked_topic)
+                                    <li>
+                                        <a href="{{route('topic.show',$liked_topic->id)}}">
+                                            {{ $liked_topic->title }}
+                                        </a>
+                                    </li>
+                                    @empty
+                                     <li>{{__('No Comment By ').$user->name}}</li>
+                                    @endforelse
+                                    {{ $liked_topics->fragment('lf_user_likes')->links() }}
                              </ul>
                          </div>
                      </div>
