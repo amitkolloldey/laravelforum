@@ -2,20 +2,23 @@
     <div class="topwrap">
         <div class="posttext">
             <div class="avatar">
-                <img src="{{ Gravatar::fallback(url('uploads/avater.png'))->get($comment->user->email) }}"
-                     alt="{{$topic->user->name}}">
+                <a href="{{route('user.show',$topic->user_id)}}"><img src="{{ Gravatar::fallback(url('uploads/avater
+                .png'))->get
+                ($comment->user->email) }}" alt="{{$topic->user->name}}">
                 <strong class="lf_commenter_name">{{$comment->user->name .' '}} <span>{{ __('said')}}</span></strong>
+                </a>
             </div>
             {!! Michelf\Markdown::defaultTransform(strip_tags($comment->body))  !!}
         </div>
     </div>
     <div class="postinfobot">
         <div class="userinfo">
-            @if(Auth::check() && Auth::user()->id == $comment->user_id)
+            @can('update',$comment)
                 <div class="lf_icons pull-right">
                     <div class="lf_edit pull-right">
                         @include('partials.commentedit')
                     </div>
+                    @can('delete',$comment)
                     <div class="lf_del pull-right">
                         <form action="{{route('comment.destroy',$comment->id)}}" method="post">
                             {{csrf_field()}}
@@ -23,9 +26,10 @@
                             <button type="submit" onclick="return confirm('{{$sureDelete}}')"><i class="fa fa-trash"></i></button>
                         </form>
                     </div>
+                    @endcan
                     <div class="clearfix"></div>
                 </div>
-            @endif
+            @endcan
             <div class="posted pull-left" >
                 <span class=" pull-left"><i class="fa fa-clock-o"></i>{{ $comment->created_at->diffForHumans()}}</span>
                 @if($comment->comments()->count() > 0)
@@ -37,7 +41,7 @@
                         @include('partials.replyform')
                     </div>
                 @endif
-                @if(Auth::check() && Auth::user()->id == $topic->user->id)
+                @can('update',$topic)
                 <div class="lf_ba pull-left" >
                     @if($topic->best_answer == $comment->id)
                         <a href="#" title="{{__('Marked As Best Answer')}}" onclick="event.preventDefault();bestAnswer('{{$topic->id}}','{{$comment->id}}',this)"><i class="fa fa-check-circle"></i></a>
@@ -45,7 +49,7 @@
                         <a href="#" title="{{__('Mark As Best Answer')}}" onclick="event.preventDefault();bestAnswer('{{$topic->id}}','{{$comment->id}}',this)"><i class="fa fa-check-circle-o"></i></a>
                     @endif
                 </div>
-                @endif
+                @endcan
             </div>
         </div>
     </div>

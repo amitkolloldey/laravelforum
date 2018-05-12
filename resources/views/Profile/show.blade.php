@@ -21,7 +21,12 @@
                              <h3>{{__('Topics Created')}}</h3>
                              <ul>
                                 @forelse($topics as $topic)
-                                    <li><a href="{{route('topic.show',$topic->id)}}">{{$topic->title}}</a></li>
+                                    <li><a href="{{route('topic.show',$topic->id)}}">{{$topic->title}}</a>
+                                        <span> | </span>
+                                        <span>
+                                            {{__('Created On: '). Carbon\Carbon::createFromFormat( 'Y-m-d H:i:s',$topic->created_at )->format("F j, Y")}}
+                                        </span>
+                                    </li>
                                     @empty
                                      <li>{{__('No Topic Created By ').$user->name}}</li>
                                     @endforelse
@@ -36,7 +41,15 @@
                                         <a href="{{route('topic.show',$commented_topic->id)}}">
                                             {!! $commented_topic->title !!}
                                         </a>
-                                        <p>{!! Michelf\Markdown::defaultTransform(strip_tags($commented_topic->body))  !!}</p>
+                                        <span> | </span>
+                                        <span>
+                                            {{__('Commented On: '). Carbon\Carbon::createFromFormat( 'Y-m-d H:i:s',
+                                            $commented_topic->c_created_at )->format("F j, Y")}}
+                                        </span>
+                                        <div class="lf_user_comment_body">
+                                            {!! Michelf\Markdown::defaultTransform(strip_tags($commented_topic->body))  !!}
+
+                                        </div>
                                     </li>
                                     @empty
                                      <li>{{__('No Comment By ').$user->name}}</li>

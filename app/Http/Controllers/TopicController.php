@@ -6,7 +6,6 @@ use App\Comment;
 use App\Like;
 use App\Topic;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 
 class TopicController extends Controller
@@ -33,7 +32,7 @@ class TopicController extends Controller
             [
             'title' => 'required|unique:topics|min:20',
             'details' => 'required|min:100',
-             //'g-recaptcha-response' => 'required|captcha'
+             'g-recaptcha-response' => 'required|captcha'
             ],
             ['title.unique' => 'This Topic Is Already Posted.']);
         $topic = auth()->user()->topic()->create($request->all());
@@ -50,7 +49,6 @@ class TopicController extends Controller
     public function show($id)
     {
         $sureDelete = __('Are you sure want to Delete?');
-
         $comments = Comment::where('commentable_id',$id)->orderBy('id', 'asc')->paginate(5);
         $topic = Topic::findOrFail($id);
         $topic->addPageView();
@@ -71,12 +69,9 @@ class TopicController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Topic $topic)
     {
-        $topic = Topic::findOrFail($id);
-        if(Auth::user()->id != $topic->user->id){
-            return redirect('/');
-        }
+        $this->authorize('update', $topic);
         return view('topics.edit',compact('topic'));
     }
 
@@ -87,23 +82,19 @@ class TopicController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Topic $topic)
     {
-        $topic = Topic::findOrFail($id);
-        if(Auth::user()->id != $topic->user->id){
-            return redirect('/');
-        }
-
+        $this->authorize('update', $topic);
         $this->validate($request,
             [
-                'title' => 'required|min:20|unique:topics,title,'.$id,
+                'title' => 'required|min:20|unique:topics,title,'.$topic->id,
                 'details' => 'required|min:20',
                 //'g-recaptcha-response' => 'required|captcha'
             ],
             ['title.unique' => 'This Topic Is Already Posted.']
         );
         $topic->update($request->all());
-        return redirect(route('topic.show',$id))->withMessage(__('Topic Has Been Updated Successfully!'));
+        return redirect(route('topic.show',$topic))->withMessage(__('Topic Has Been Updated Successfully!'));
     }
 
     /**
@@ -112,12 +103,9 @@ class TopicController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Topic $topic)
     {
-        $topic = Topic::findOrFail($id);
-        if(Auth::user()->id != $topic->user->id){
-            return redirect('/');
-        }
+        $this->authorize('delete', $topic);
 
         $comments = Comment::where('commentable_id',$topic->id)->get();
         foreach($comments as $comment){
@@ -136,11 +124,10 @@ class TopicController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function bestAnswer()
+    public function bestAnswer(Topic $topic)
     {
+        $this->authorize('update', $topic);
         $commentId = Input::get('commentId');
-        $topicId = Input::get('topicId');
-        $topic = Topic::find($topicId);
         $topic->best_answer = $commentId;
         if ($topic->save()) {
             if (request()->ajax()) {

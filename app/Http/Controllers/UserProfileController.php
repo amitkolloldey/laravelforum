@@ -11,13 +11,11 @@ use Illuminate\Support\Facades\DB;
 
 class UserProfileController extends Controller
 {
-    public function show($id){
-        $user = User::findOrFail($id);
-        $comments = Comment::where('user_id',$id)->orderBy('id', 'asc')->paginate(5);
-        $topics = Topic::where('user_id',$id)->orderBy('id', 'asc')->paginate(5);
+    public function show(User $user){
+        $topics = Topic::where('user_id',$user->id)->orderBy('id', 'asc')->paginate(5);
         $commented_topics = DB::table('topics')
             ->join('comments', 'comments.commentable_id', '=', 'topics.id')
-            ->select('topics.*','comments.body')
+            ->select('topics.*','comments.body','comments.created_at as c_created_at')
             ->paginate(5);
         $liked_topics = DB::table('topics')
             ->join('likes', 'likes.likeable_id', '=', 'topics.id')

@@ -462,12 +462,20 @@ a:visited{
 }
 
 .lf_user_topics ul li{
-	padding: 5px 0;
+	padding: 10px 0;
 }
 
 .lf_user_topics {
-	padding: 20px 0;
+	padding: 30px 0;
 }
 .lf_user_topics h3 {
 	font-size: 20px;
+}
+.lf_user_comment_body p {
+	margin: 0;
+}
+
+.lf_user_comment_body {
+	padding: 10px;
+	background: #f1f1f1;
 }

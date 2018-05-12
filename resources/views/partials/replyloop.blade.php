@@ -12,7 +12,7 @@
     <div class="postinfobot">
         <div class="userinfo">
 
-            @if(Auth::check() && Auth::user()->id == $reply->user_id)
+            {{--@can('update',$comment)--}}
                 <div class="lf_icons pull-right">
                     <div class="lf_edit pull-right">
                         @include('partials.replyedit')
@@ -28,7 +28,7 @@
                     </div>
                     <div class="clearfix"></div>
                 </div>
-            @endif
+            {{--@endcan--}}
             <div class="posted pull-left">
                 <i class="fa fa-clock-o"></i> {{ $reply->created_at->diffForHumans()}}
             </div>
