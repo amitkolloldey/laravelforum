@@ -17,83 +17,36 @@
         </div>
     </div>
 
-    <!-- -->
-    <div class="sidebarblock">
-        <h3>Poll of the Week</h3>
-        <div class="divline"></div>
+    <div class="sidebarblock" id="lf_most_popular_topics">
+        <h3>{{__('Most Popular')}}</h3>
+        @forelse($topicview as $topicmostviewed)
         <div class="blocktxt">
-            <p>Which game you are playing this week?</p>
-            <form action="#" method="post" class="form">
-                <table class="poll">
-                    <tr>
-                        <td>
-                            <div class="progress">
-                                <div class="progress-bar color1" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 90%">
-                                    Call of Duty Ghosts
-                                </div>
-                            </div>
-                        </td>
-                        <td class="chbox">
-                            <input id="opt1" type="radio" name="opt" value="1">
-                            <label for="opt1"></label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="progress">
-                                <div class="progress-bar color2" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 63%">
-                                    Titanfall
-                                </div>
-                            </div>
-                        </td>
-                        <td class="chbox">
-                            <input id="opt2" type="radio" name="opt" value="2" checked>
-                            <label for="opt2"></label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="progress">
-                                <div class="progress-bar color3" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 75%">
-                                    Battlefield 4
-                                </div>
-                            </div>
-                        </td>
-                        <td class="chbox">
-                            <input id="opt3" type="radio" name="opt" value="3">
-                            <label for="opt3"></label>
-                        </td>
-                    </tr>
-                </table>
-            </form>
-            <p class="smal">Voting ends on 19th of October</p>
+            <a href="{{route('topic.show',$topicmostviewed->id)}}">{{$topicmostviewed->title}}</a>
         </div>
+        <div class="divline"></div>
+        @empty
+        <div class="blocktxt">
+            <p>{{__('No Topics')}}</p>
+        </div>
+        <div class="divline"></div>
+        @endforelse
+        {{$topicview->fragment('lf_most_popular_topics')->links()}}
     </div>
-
-    <!-- -->
-    <div class="sidebarblock">
-        <h3>My Active Threads</h3>
-        <div class="divline"></div>
+@if($usertopics->count()>0)
+    <div class="sidebarblock" id="lf_user_active_topics">
+        <h3>{{__('My Active Threads')}}</h3>
+        @forelse($usertopics as $usertopic)
         <div class="blocktxt">
-            <a href="#">This Dock Turns Your iPhone Into a Bedside Lamp</a>
+            <a href="{{route('topic.show',$usertopic->id)}}">{{$usertopic->title}}</a>
         </div>
         <div class="divline"></div>
+        @empty
         <div class="blocktxt">
-            <a href="#">Who Wins in the Battle for Power on the Internet?</a>
+            <p>{{__('You have no active topics')}}</p>
         </div>
         <div class="divline"></div>
-        <div class="blocktxt">
-            <a href="#">Sony QX10: A Funky, Overpriced Lens Camera for Your Smartphone</a>
-        </div>
-        <div class="divline"></div>
-        <div class="blocktxt">
-            <a href="#">FedEx Simplifies Shipping for Small Businesses</a>
-        </div>
-        <div class="divline"></div>
-        <div class="blocktxt">
-            <a href="#">Loud and Brave: Saudi Women Set to Protest Driving Ban</a>
-        </div>
+        @endforelse
+        {{$usertopics->fragment('lf_user_active_topics')->links()}}
     </div>
-
-
+@endif
 </div>

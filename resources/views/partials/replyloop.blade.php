@@ -2,9 +2,11 @@
     <div class="topwrap">
         <div class="posttext">
             <div class="avatar">
-                <img src="{{ Gravatar::fallback(url('uploads/avater.png'))->get($reply->user->email) }}"
-                     alt="{{$reply->user->name}}">
-                <strong class="lf_commenter_name">{{$reply->user->name .' '}} <span>{{ __('Replied')}}</span></strong>
+                <a href="{{route('user.show',$reply->user_id)}}">
+                    <img src="{{ Gravatar::fallback(url('uploads/avater.png'))->get($reply->user->email) }}"
+                         alt="{{$reply->user->name}}">
+                    <strong class="lf_commenter_name">{{$reply->user->name .' '}} <span>{{ __('Replied')}}</span></strong>
+                </a>
             </div>
             {!! Michelf\Markdown::defaultTransform(strip_tags($reply->body))  !!}
         </div>

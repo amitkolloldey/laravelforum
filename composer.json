@@ -12,6 +12,7 @@
         "cyrildewit/laravel-page-view-counter": "^1.0",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.6.*",
+        "laravel/socialite": "^3.0",
         "laravel/tinker": "^1.0",
         "michelf/php-markdown": "^1.8"
     },

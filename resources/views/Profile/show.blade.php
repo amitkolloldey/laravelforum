@@ -68,7 +68,7 @@
                                         </a>
                                     </li>
                                     @empty
-                                     <li>{{__('No Comment By ').$user->name}}</li>
+                                     <li>{{__('No Liked Topic By ').$user->name}}</li>
                                     @endforelse
                                     {{ $liked_topics->fragment('lf_user_likes')->links() }}
                              </ul>

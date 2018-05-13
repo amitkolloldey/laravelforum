@@ -37,7 +37,7 @@
 @stop
 
 @section('sidebar')
-    @include('partials.sidebar')
+    @include('partials.sidebar',['usertopics' => $usertopics,'topicview' => $topicview])
 @stop
 
 @section('styles')

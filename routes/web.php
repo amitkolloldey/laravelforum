@@ -27,4 +27,7 @@ Route::group(['middleware' => ['auth']], function () {
 Route::resource('/topic','TopicController',['only'=>['create','store','show','edit','update','destroy']]);
 Route::resource('/comment','CommentController',['only'=>['show','update','destroy']]);
 
+
+Route::get('login/{provider}', 'Auth\SocialAuthController@redirectToProvider')->name('social.login');
+Route::get('login/{provider}/callback', 'Auth\SocialAuthController@handleProviderCallback')->name('social.login.callback');
 Auth::routes();

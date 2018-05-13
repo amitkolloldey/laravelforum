@@ -14,6 +14,11 @@ class Topic extends Model
         'title','details','user_id'
     ];
 
+
+
+    use HasPageViewCounter;
+
+
     public function user(){
         return $this->belongsTo('App\User');
     }

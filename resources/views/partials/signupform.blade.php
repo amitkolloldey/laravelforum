@@ -61,5 +61,12 @@
                 </button>
             </div>
         </div>
+        <div class="row form-group text-center">
+            <div class="col-md-12">
+                <a class="btn btn-social btn-github" href="{{route('social.login','github')}}">
+                    <span class="fa fa-github"></span>{{__(' Sign Up with Github')}}
+                </a>
+            </div>
+        </div>
     </form>
 @endif

@@ -51,28 +51,44 @@
                         </form>
                     </div>
                 </div>
-                <div class="col-lg-6 col-xs-12 col-sm-5 col-md-4 avt">
+                <div class="col-lg-6 col-xs-12 col-sm-5 col-md-4 avt text-right">
                     <div class="lf_auth_links">
 
-                            <div><a class="nav-link lf_new_topic_btn" href="{{route('topic.create')}}">{{ __('Start New
+                            <div class="pull-left"><a class="nav-link lf_new_topic_btn" href="{{route('topic.create')}}">{{
+                            __('Start
+                             New
                              Topic')}}</a></div>
                             <!-- Authentication Links -->
                             @guest
-                                <div><a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a></div>
-                                <div><a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a></div>
+                                <div class="pull-left"><a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a></div>
+                                <div class="pull-left"><a class="nav-link" href="{{ route('register') }}">{{ __
+                                ('Register') }}</a></div>
                             @else
-                                <div class="nav-item dropdown">
-                                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                        {{ Auth::user()->name }} <span class="caret"></span>
+                                <div class="nav-item dropdown pull-left">
+                                    <a class="nav-link dropdown-toggle" href="#" id="lf_user_link_panel"
+                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        {{ Auth::user()->name }} @if(Auth::user()->unreadNotifications->count()>0)
+                                            <span class="badge badge-light">{{Auth::user()
+                                            ->unreadNotifications->count()}}@endif</span>
+                                        <span class="caret"></span>
                                     </a>
-
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <div class="dropdown-menu" aria-labelledby="lf_user_link_panel">
+                                        @if(Auth::user()->unreadNotifications->count()>0)
+                                        <div class="lf_notifications">
+                                            @foreach(Auth::user()->unreadNotifications as $notification)
+                                            @include('partials.notification.'.snake_case(class_basename
+                                            ($notification->type)))
+                                            @endforeach
+                                        </div>
+                                        @endif
+                                        <a class="dropdown-item" href="{{ route('user.show',Auth::id()) }}">
+                                            {{ __('Profile') }}
+                                        </a>
                                         <a class="dropdown-item" href="{{ route('logout') }}"
                                            onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                             {{ __('Logout') }}
                                         </a>
-
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                             @csrf
                                         </form>

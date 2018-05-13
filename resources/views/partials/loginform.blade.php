@@ -20,8 +20,8 @@
 
             @if ($errors->has('email'))
                 <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
+                      <strong>{{ $errors->first('email') }}</strong>
+                </span>
             @endif
         </div>
     </div>
@@ -60,5 +60,19 @@
                 {{__('Forgot Your Password?')}}
             </a>
         </div>
+    </div>
+    <div class="row form-group text-center">
+        <div class="col-md-12">
+            <a class="btn btn-social btn-github" href="{{route('social.login','github')}}">
+                <span class="fa fa-github"></span>{{__(' Sign in with Github')}}
+            </a>
+
+        </div>
+        {{--<div class="col-md-12">--}}
+            {{--<a class="btn btn-social btn-google" href="{{route('social.login','google')}}">--}}
+                {{--<span class="fa fa-google"></span>{{__(' Sign in with Google')}}--}}
+            {{--</a>--}}
+
+        {{--</div>--}}
     </div>
 </form>

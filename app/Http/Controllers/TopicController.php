@@ -6,6 +6,8 @@ use App\Comment;
 use App\Like;
 use App\Topic;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 
 class TopicController extends Controller
@@ -48,6 +50,12 @@ class TopicController extends Controller
      */
     public function show($id)
     {
+        $topicview = Topic::select(DB::raw('topics.created_at,topics.id,topics.title, count(*) as aggregate'))
+            ->join('page-views', 'topics.id', '=', 'page-views.visitable_id')
+            ->groupBy('topics.title','topics.id','topics.created_at')
+            ->orderBy('aggregate', 'desc')
+            ->paginate(10);
+        $usertopics = Topic::where('user_id',Auth::id())->paginate(5);
         $sureDelete = __('Are you sure want to Delete?');
         $comments = Comment::where('commentable_id',$id)->orderBy('id', 'asc')->paginate(5);
         $topic = Topic::findOrFail($id);
@@ -60,28 +68,22 @@ class TopicController extends Controller
             $liked_user = 0;
         }
 
-        return view('topics.show',compact('topic','sureDelete','topicsCount','comments','liked_user'));
+        return view('topics.show',compact('topic','sureDelete','topicsCount','comments','liked_user','usertopics','topicview'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Topic $topic)
     {
+        $topicview = Topic::select(DB::raw('topics.created_at,topics.id,topics.title, count(*) as aggregate'))
+            ->join('page-views', 'topics.id', '=', 'page-views.visitable_id')
+            ->groupBy('topics.title','topics.id','topics.created_at')
+            ->orderBy('aggregate', 'desc')
+            ->paginate(10);
+        $usertopics = Topic::where('user_id',Auth::id())->paginate(5);
         $this->authorize('update', $topic);
-        return view('topics.edit',compact('topic'));
+        return view('topics.edit',compact('topic','usertopics','topicview'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, Topic $topic)
     {
         $this->authorize('update', $topic);
@@ -97,12 +99,7 @@ class TopicController extends Controller
         return redirect(route('topic.show',$topic))->withMessage(__('Topic Has Been Updated Successfully!'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy(Topic $topic)
     {
         $this->authorize('delete', $topic);
@@ -118,12 +115,7 @@ class TopicController extends Controller
     }
 
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function bestAnswer(Topic $topic)
     {
         $this->authorize('update', $topic);
