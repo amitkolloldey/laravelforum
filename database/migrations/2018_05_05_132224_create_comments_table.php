@@ -20,6 +20,7 @@ class CreateCommentsTable extends Migration
             $table->string('commentable_type');
             $table->longText('body');
             $table->timestamps();
+
         });
     }
 
@@ -30,6 +31,7 @@ class CreateCommentsTable extends Migration
      */
     public function down()
     {
+
         Schema::dropIfExists('comments');
     }
 }

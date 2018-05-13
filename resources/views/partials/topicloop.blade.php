@@ -2,14 +2,15 @@
     <div class="wrap-ut pull-left">
         <div class="userinfo pull-left">
             <div class="avatar">
-                <img src="{{ Gravatar::get($topic->user->email,'default') }}" alt="{{$topic->user->name}}">
-                <div class="status green">&nbsp;</div>
+                <a href="{{route('user.show',$topic->user_id)}}"><img src="{{ Gravatar::get($topic->user->email,
+                'default') }}" alt="{{$topic->user->name}}"></a>
             </div>
-            @if(Auth::check() && Auth::user()->id == $topic->user->id)
+            @can('update',$topic)
                 <div class="lf_icons">
                     <div class="lf_edit">
                         <a href="{{route('topic.edit',$topic->id)}}" title="{{__('Edit')}}"><i class="fa fa-edit"></i></a>
                     </div>
+                    @can('delete',$topic)
                     <div class="lf_del">
                         <form action="{{route('topic.destroy',$topic->id)}}" method="post">
                             {{csrf_field()}}
@@ -17,8 +18,9 @@
                             <button type="submit" onclick="return confirm('{{$sureDelete}}')"><i class="fa fa-trash"></i></button>
                         </form>
                     </div>
+                    @endcan
                 </div>
-            @endif
+            @endcan
         </div>
         <div class="posttext pull-left">
             <h2 class="lf_topic_title"><a href="{{route('topic.show',$topic->id)}}">{{$topic->title}}</a></h2>
@@ -29,7 +31,7 @@
     <div class="postinfo pull-left">
         <div class="comments">
             <div class="commentbg">
-                <a href="{{route('topic.show',$topic->id).'#lf_comments_wrap'}}">{{$topic->comments()->count()}}</a>
+                <a href="{{route('topic.show',$topic->id).'#lf_comments_wrap'}}">{{$topic->comments->count()}}</a>
                 <div class="mark"></div>
             </div>
         </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Comment;
+use App\Notifications\CommentNotification;
 use App\Topic;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,11 +22,13 @@ class CommentController extends Controller
             Session::flash('commentcreateerror','Comment is Required');
             return redirect(route('topic.show',$topic->id.'#lf_comment_create_form'));
         }
-
         $comment = new Comment();
         $comment->body = $request->body;
         $comment->user_id = Auth::user()->id;
         $comment = $topic->comments()->save($comment);
+        if($comment->user_id != $topic->user_id){
+            $topic->user->notify(new CommentNotification($topic));
+        }
         return redirect(route('topic.show',$topic->id.'#commentno'.$comment->id));
     }
 
@@ -49,19 +52,10 @@ class CommentController extends Controller
     }
 
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Comment  $comment
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+
+    public function update(Request $request, Comment $comment)
     {
-        $comment = Comment::findOrFail($id);
-        if(Auth::user()->id != $comment->user_id){
-            return redirect('/');
-        }
+        $this->authorize('update',$comment);
         $validator = Validator::make($request->all(), [
             'editcommentbody' => 'required',
         ]);
@@ -77,19 +71,10 @@ class CommentController extends Controller
 
 
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Comment  $comment
-     * @return \Illuminate\Http\Response
-     */
-    public function replyUpdate(Request $request, $id)
+
+    public function replyUpdate(Request $request,Comment $comment)
     {
-        $reply = Comment::findOrFail($id);
-        if(Auth::user()->id != $reply->user_id){
-            return redirect('/');
-        }
+        $this->authorize('update',$comment);
         $validator = Validator::make($request->all(), [
             'editreplybody' => 'required',
         ]);
@@ -97,44 +82,32 @@ class CommentController extends Controller
             Session::flash('editreplybody'.$reply->id,'Reply is Required');
             return redirect(route('topic.show',$request->topic_id.'#commentno'.$request->comment_id));
         }
-        $reply->update([
+        $comment->update([
             'body' => $request->editreplybody,
         ]);
         return redirect(route('topic.show',$request->topic_id.'#commentno'.$request->comment_id));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Comment  $comment
-     * @return \Illuminate\Http\Response
-     */
-    public function replyDestroy(Request $request, $id)
+
+    public function replyDestroy(Request $request,Comment $comment)
     {
-        $reply = Comment::findOrFail($id);
-        if(Auth::user()->id != $reply->user_id){
-            return redirect('/');
-        }
-        $reply->delete();
+        $this->authorize('delete',$comment);
+        $comment->delete();
         Session::flash('commentmessage', "Reply Deleted");
         return redirect(route('topic.show',$request->topic_id.'#commentno'.$request->comment_id));
     }
 
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Comment  $comment
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+
+    public function destroy(Comment $comment)
     {
-        $commentdata = Comment::findOrFail($id);
-        if(Auth::user()->id != $commentdata->user_id){
-            return redirect('/');
+        $this->authorize('delete',$comment);
+        $comments = Comment::where('commentable_id',$comment->id)->get();
+        foreach ($comments as $reply){
+            Comment::where('id',$reply->id)->delete();
         }
-        $commentdata->delete();
+        $comment->delete();
         Session::flash('commentmessage', "Comment Deleted");
-        return redirect(route('topic.show',$commentdata->commentable_id.'#lf_comments_wrap'));
+        return redirect(route('topic.show',$comment->commentable_id.'#lf_comments_wrap'));
     }
 }

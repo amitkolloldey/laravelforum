@@ -18,12 +18,16 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/comment','CommentController',['except' => ['show']]);
     Route::post('/topic/comment/create/{topic}','CommentController@storeComment')->name('topic.comment.create');
     Route::post('/topic/comment/reply/create/{comment}','CommentController@storeReply')->name('topic.reply.create');
-    Route::PATCH('/comment/reply/update/{id}','CommentController@replyUpdate')->name('reply.update');
-    Route::DELETE('/comment/reply/delete/{id}','CommentController@replyDestroy')->name('reply.delete');
-    Route::post('/topic/comment/bestanswer','TopicController@bestAnswer')->name('bestAnswer');
+    Route::PATCH('/comment/reply/update/{comment}','CommentController@replyUpdate')->name('reply.update');
+    Route::DELETE('/comment/reply/delete/{comment}','CommentController@replyDestroy')->name('reply.delete');
+    Route::post('/topic/comment/bestanswer/{topic}','TopicController@bestAnswer')->name('bestAnswer');
     Route::post('/topic/likeTopic','LikeController@likeTopic')->name('likeTopic');
+    Route::get('/user/{user}','UserProfileController@show')->name('user.show');
 });
 Route::resource('/topic','TopicController',['only'=>['create','store','show','edit','update','destroy']]);
 Route::resource('/comment','CommentController',['only'=>['show','update','destroy']]);
 
+
+Route::get('login/{provider}', 'Auth\SocialAuthController@redirectToProvider')->name('social.login');
+Route::get('login/{provider}/callback', 'Auth\SocialAuthController@handleProviderCallback')->name('social.login.callback');
 Auth::routes();

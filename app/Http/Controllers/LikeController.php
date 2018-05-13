@@ -30,6 +30,5 @@ class LikeController extends Controller
             $topic->likes()->delete();
             return response()->json(['status' => 'success', 'message' => 'unliked']);
         }
-
     }
 }

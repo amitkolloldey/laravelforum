@@ -2,9 +2,11 @@
     <div class="topwrap">
         <div class="posttext">
             <div class="avatar">
-                <img src="{{ Gravatar::fallback(url('uploads/avater.png'))->get($reply->user->email) }}"
-                     alt="{{$reply->user->name}}">
-                <strong class="lf_commenter_name">{{$reply->user->name .' '}} <span>{{ __('Replied')}}</span></strong>
+                <a href="{{route('user.show',$reply->user_id)}}">
+                    <img src="{{ Gravatar::fallback(url('uploads/avater.png'))->get($reply->user->email) }}"
+                         alt="{{$reply->user->name}}">
+                    <strong class="lf_commenter_name">{{$reply->user->name .' '}} <span>{{ __('Replied')}}</span></strong>
+                </a>
             </div>
             {!! Michelf\Markdown::defaultTransform(strip_tags($reply->body))  !!}
         </div>
@@ -12,7 +14,7 @@
     <div class="postinfobot">
         <div class="userinfo">
 
-            @if(Auth::check() && Auth::user()->id == $reply->user_id)
+            {{--@can('update',$comment)--}}
                 <div class="lf_icons pull-right">
                     <div class="lf_edit pull-right">
                         @include('partials.replyedit')
@@ -28,7 +30,7 @@
                     </div>
                     <div class="clearfix"></div>
                 </div>
-            @endif
+            {{--@endcan--}}
             <div class="posted pull-left">
                 <i class="fa fa-clock-o"></i> {{ $reply->created_at->diffForHumans()}}
             </div>

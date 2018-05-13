@@ -19,4 +19,8 @@ class Like extends Model
     }
 
 
+    public function topics(){
+        return $this->belongsTo('App\Topic');
+    }
+
 }
