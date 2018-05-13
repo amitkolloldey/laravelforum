@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddCodeIdToTopics extends Migration
+class AddProviderColumnToUsers extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class AddCodeIdToTopics extends Migration
      */
     public function up()
     {
-        Schema::table('topics', function (Blueprint $table) {
-            $table->integer('code_id')->unsigned()->nullable()->index();
-            $table->foreign('code_id')->references('id')->on('codes')->onDelete('cascade');
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('provider')->nullable();
+            $table->string('provider_id')->nullable();
         });
     }
 
@@ -26,8 +26,9 @@ class AddCodeIdToTopics extends Migration
      */
     public function down()
     {
-        Schema::table('topics', function (Blueprint $table) {
-            $table->dropColumn('code_id');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('provider');
+            $table->dropColumn('provider_id');
         });
     }
 }

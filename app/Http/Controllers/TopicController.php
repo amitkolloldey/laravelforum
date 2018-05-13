@@ -2,29 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Code;
+use App\Comment;
+use App\Like;
 use App\Topic;
-use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Input;
 
 class TopicController extends Controller
 {
-    public function __construct()
-    {
-        return $this->middleware('auth')->except('index','show');
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-
-    }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -43,27 +30,17 @@ class TopicController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request->all());
-        $request_data = $request->only('title', 'details');
-        $request_code = $request->only('block');
-       // $request_code['block'] = str_replace('</xmp>', '< / xmp >', $request_code['block']);
         $this->validate($request,
             [
             'title' => 'required|unique:topics|min:20',
-            'details' => 'required|min:20',
-            //'g-recaptcha-response' => 'required|captcha'
+            'details' => 'required|min:100',
+             'g-recaptcha-response' => 'required|captcha'
             ],
             ['title.unique' => 'This Topic Is Already Posted.']);
-        $code = Code::create([
-            'block' => $request_code['block']
-        ]);
-        $topic = auth()->user()->topic()->create([
-            'title' => $request_data['title'],
-            'details' => $request_data['details'],
-            'code_id' => $code->id,
-        ]);
-        return redirect(route('topic.show',$topic->id))->withMessage('Topic Has Been Created Successfully!');
+        $topic = auth()->user()->topic()->create($request->all());
+        return redirect(route('topic.show',$topic->id))->withMessage(__('Topic Has Been Created Successfully!'));
     }
+
 
     /**
      * Display the specified resource.
@@ -73,75 +50,84 @@ class TopicController extends Controller
      */
     public function show($id)
     {
+        $topicview = Topic::select(DB::raw('topics.created_at,topics.id,topics.title, count(*) as aggregate'))
+            ->join('page-views', 'topics.id', '=', 'page-views.visitable_id')
+            ->groupBy('topics.title','topics.id','topics.created_at')
+            ->orderBy('aggregate', 'desc')
+            ->paginate(10);
+        $usertopics = Topic::where('user_id',Auth::id())->paginate(5);
         $sureDelete = __('Are you sure want to Delete?');
+        $comments = Comment::where('commentable_id',$id)->orderBy('id', 'asc')->paginate(5);
         $topic = Topic::findOrFail($id);
-        $code = Code::findOrFail($topic->code_id);
+        $topic->addPageView();
         $topicsCount = Topic::where('user_id', $topic->user->id)->get();
-        return view('topics.show',compact('topic','sureDelete','topicsCount','code'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $topic = Topic::findOrFail($id);
-        $code = Code::findOrFail($topic->code_id);
-
-        if(Auth::user()->id != $topic->user->id){
-            return redirect('/');
-        }
-        return view('topics.edit',compact('topic','code'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        $topic = Topic::findOrFail($id);
-        if(Auth::user()->id != $topic->user->id){
-            return redirect('/');
+        if($topic->likes()->count() > 0){
+            $like = Like::where('likeable_id', $topic->id)->first();
+            $liked_user = $like->user_id;
+        }else{
+            $liked_user = 0;
         }
 
+        return view('topics.show',compact('topic','sureDelete','topicsCount','comments','liked_user','usertopics','topicview'));
+    }
+
+    public function edit(Topic $topic)
+    {
+        $topicview = Topic::select(DB::raw('topics.created_at,topics.id,topics.title, count(*) as aggregate'))
+            ->join('page-views', 'topics.id', '=', 'page-views.visitable_id')
+            ->groupBy('topics.title','topics.id','topics.created_at')
+            ->orderBy('aggregate', 'desc')
+            ->paginate(10);
+        $usertopics = Topic::where('user_id',Auth::id())->paginate(5);
+        $this->authorize('update', $topic);
+        return view('topics.edit',compact('topic','usertopics','topicview'));
+    }
+
+
+    public function update(Request $request, Topic $topic)
+    {
+        $this->authorize('update', $topic);
         $this->validate($request,
             [
-                'title' => 'required|min:20|unique:topics,title,'.$id,
-                'details' => 'required|min:20'
+                'title' => 'required|min:20|unique:topics,title,'.$topic->id,
+                'details' => 'required|min:20',
+                //'g-recaptcha-response' => 'required|captcha'
             ],
             ['title.unique' => 'This Topic Is Already Posted.']
         );
-        $code = Code::findOrFail($topic->code_id);
-        $code->update([
-            'block' => $request->block
-        ]);
-        $topic->update([
-            'title' => $request->title,
-            'details' => $request->details
-        ]);
-        return redirect(route('topic.show',$id))->withMessage('Topic Has Been Updated Successfully!');
+        $topic->update($request->all());
+        return redirect(route('topic.show',$topic))->withMessage(__('Topic Has Been Updated Successfully!'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+
+    public function destroy(Topic $topic)
     {
-        $topic = Topic::findOrFail($id);
-        if(Auth::user()->id != $topic->user->id){
-            return redirect('/');
+        $this->authorize('delete', $topic);
+
+        $comments = Comment::where('commentable_id',$topic->id)->get();
+        foreach($comments as $comment){
+            Comment::where('commentable_id',$comment->id)->delete();
         }
+        Comment::where('commentable_id',$topic->id)->delete();
+        Like::where('likeable_id',$topic->id)->delete();
         $topic->delete();
-        return redirect('/')->withDanger('Topic Has Been Deleted!');
+        return redirect('/')->withMessage(__('Topic Has Been Deleted!'));
     }
+
+
+
+    public function bestAnswer(Topic $topic)
+    {
+        $this->authorize('update', $topic);
+        $commentId = Input::get('commentId');
+        $topic->best_answer = $commentId;
+        if ($topic->save()) {
+            if (request()->ajax()) {
+                return response()->json(['status' => 'success', 'message' => 'marked as best answer.']);
+            }
+        }
+        return back()->withMessage('Marked as Best Answer.');
+    }
+
+
 }
