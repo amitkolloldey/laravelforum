@@ -22,5 +22,5 @@
     </div>
     @stop
 @section('sidebar')
-    @include('partials.sidebar',['usertopics' => $usertopics,'topicview' => $usertopics,'tags'=>$tags])
+    @include('partials.sidebar',['usertopics' => $usertopics,'topicview' => $topicview,'tags'=>$tags])
 @stop

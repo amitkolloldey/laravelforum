@@ -29,7 +29,7 @@ class CommentController extends Controller
         if($comment->user_id != $topic->user_id){
             $topic->user->notify(new CommentNotification($topic,$comment));
         }
-        return redirect(route('topic.show',$topic->id.'#commentno'.$comment->id));
+        return redirect(route('topic.show',$topic->slug.'#commentno'.$comment->id));
     }
 
 
@@ -48,7 +48,7 @@ class CommentController extends Controller
         $reply->user_id = Auth::user()->id;
         $comment->comments()->save($reply);
         Session::flash('replyadded'.$comment->id,'Reply added');
-        return redirect(route('topic.show',$request->topic_id.'#commentno'.$comment->id));
+        return redirect(route('topic.show',$request->topic_slug.'#commentno'.$comment->id));
     }
 
 
@@ -61,12 +61,12 @@ class CommentController extends Controller
         ]);
         if ($validator->fails()) {
             Session::flash('editcommentbody'.$comment->id,'Comment is Required');
-            return redirect(route('topic.show',$comment->commentable_id.'#commentno'.$comment->id));
+            return redirect(route('topic.show',$request->topic_slug.'#commentno'.$comment->id));
         }
         $comment->update([
             'body' => $request->editcommentbody,
         ]);
-        return redirect(route('topic.show',$comment->commentable_id.'#commentno'.$comment->id));
+        return redirect(route('topic.show',$request->topic_slug.'#commentno'.$comment->id));
     }
 
 
@@ -80,12 +80,12 @@ class CommentController extends Controller
         ]);
         if ($validator->fails()) {
             Session::flash('editreplybody'.$reply->id,'Reply is Required');
-            return redirect(route('topic.show',$request->topic_id.'#commentno'.$request->comment_id));
+            return redirect(route('topic.show',$request->topic_slug.'#commentno'.$request->comment_id));
         }
         $comment->update([
             'body' => $request->editreplybody,
         ]);
-        return redirect(route('topic.show',$request->topic_id.'#commentno'.$request->comment_id));
+        return redirect(route('topic.show',$request->topic_slug.'#commentno'.$request->comment_id));
     }
 
 
@@ -94,12 +94,12 @@ class CommentController extends Controller
         $this->authorize('delete',$comment);
         $comment->delete();
         Session::flash('commentmessage', "Reply Deleted");
-        return redirect(route('topic.show',$request->topic_id.'#commentno'.$request->comment_id));
+        return redirect(route('topic.show',$request->topic_slug.'#commentno'.$request->comment_id));
     }
 
 
 
-    public function destroy(Comment $comment)
+    public function destroy(Request $request,Comment $comment)
     {
         $this->authorize('delete',$comment);
         $comments = Comment::where('commentable_id',$comment->id)->get();
@@ -108,6 +108,6 @@ class CommentController extends Controller
         }
         $comment->delete();
         Session::flash('commentmessage', "Comment Deleted");
-        return redirect(route('topic.show',$comment->commentable_id.'#lf_comments_wrap'));
+        return redirect(route('topic.show',$request->topic_slug.'#lf_comments_wrap'));
     }
 }

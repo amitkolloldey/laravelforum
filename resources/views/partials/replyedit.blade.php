@@ -24,7 +24,7 @@
                     <div class="form-group">
                         <textarea class="form-control" id="editreplybody" rows="10" name="editreplybody" data-provide="markdown" data-iconlibrary="fa" data-hidden-buttons="cmdPreview">{{$reply->getOriginal()['body']}}</textarea>
                         <input type="hidden" name="comment_id" value="{{$comment->id}}">
-                        <input type="hidden" name="topic_id" value="{{$topic->id}}">
+                        <input type="hidden" name="topic_slug" value="{{$topic->slug}}">
                     </div>
                     <div class="form-group">
                         <input type="submit" class="btn btn-primary" value="{{__('Update Reply')}}">

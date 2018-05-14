@@ -24,6 +24,7 @@
                         <form action="{{route('comment.destroy',$comment->id)}}" method="post">
                             {{csrf_field()}}
                             {{method_field('DELETE')}}
+                            <input type="hidden" name="topic_slug" value="{{$topic->slug}}">
                             <button type="submit" onclick="return confirm('{{$sureDelete}}')"><i class="fa fa-trash"></i></button>
                         </form>
                     </div>
