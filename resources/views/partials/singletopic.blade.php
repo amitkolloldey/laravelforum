@@ -2,14 +2,15 @@
     <div class="topwrap">
         <div class="userinfo pull-left">
             <div class="avatar">
-                <a href="{{route('user.show',$topic->user_id)}}"><img src="{{ Gravatar::fallback(url('uploads/avater
+                <a href="{{route('user.show',$topic->user->slug)}}"><img src="{{ Gravatar::fallback(url('uploads/avater
                 .png'))->get($topic->user->email) }}" alt="{{$topic->user->name}}"></a>
                 <p class="lf_points">{{ count($topicsCount) }}</p>
             </div>
             @can('update',$topic)
                 <div class="lf_icons">
                     <div class="lf_edit">
-                        <a href="{{route('topic.edit',$topic->id)}}" title="{{__('Edit')}}"><i class="fa fa-edit"></i></a>
+                        <a href="{{route('topic.edit',$topic->slug)}}" title="{{__('Edit')}}"><i class="fa
+                        fa-edit"></i></a>
                     </div>
                     @can('delete',$topic)
                     <div class="lf_del">

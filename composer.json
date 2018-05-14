@@ -10,6 +10,7 @@
         "anhskohbo/no-captcha": "^3.0",
         "bestmomo/laravel-email-confirmation": "^1.1",
         "creativeorange/gravatar": "~1.0",
+        "cviebrock/eloquent-sluggable": "4.5",
         "cviebrock/eloquent-taggable": "^3.3",
         "cyrildewit/laravel-page-view-counter": "^1.0",
         "fideloper/proxy": "^4.0",

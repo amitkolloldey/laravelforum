@@ -14,12 +14,14 @@
                     <div class="wrap-ut pull-left">
                         <div class="userinfo pull-left">
                             <div class="avatar">
-                                <a href="{{route('user.show',$taggedtopic->user_id)}}"><img src="{{ Gravatar::get($taggedtopic->user->email,
+                                <a href="{{route('user.show',$taggedtopic->user->slug)}}"><img src="{{ Gravatar::get
+                                ($taggedtopic->user->email,
                 'default') }}" alt="{{$taggedtopic->user->name}}"></a>
                             </div>
                         </div>
                         <div class="posttext pull-left">
-                            <h2 class="lf_topic_title"><a href="{{route('topic.show',$taggedtopic->id)}}">{{$taggedtopic->title}}</a></h2>
+                            <h2 class="lf_topic_title"><a href="{{route('topic.show',$taggedtopic->slug)
+                            }}">{{$taggedtopic->title}}</a></h2>
                             {!! str_limit(strip_tags(Michelf\Markdown::defaultTransform($taggedtopic->details)) ,200) !!}
                         </div>
                         <div class="clearfix"></div>
@@ -27,7 +29,8 @@
                     <div class="postinfo pull-left">
                         <div class="comments">
                             <div class="commentbg">
-                                <a href="{{route('topic.show',$taggedtopic->id).'#lf_comments_wrap'}}">{{$taggedtopic->comments->count()}}</a>
+                                <a href="{{route('topic.show',$taggedtopic->slug)
+                                .'#lf_comments_wrap'}}">{{$taggedtopic->comments->count()}}</a>
                                 <div class="mark"></div>
                             </div>
                         </div>

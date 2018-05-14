@@ -21,7 +21,7 @@
         <h3>{{__('Most Popular')}}</h3>
         @forelse($topicview as $topicmostviewed)
         <div class="blocktxt">
-            <a href="{{route('topic.show',$topicmostviewed->id)}}">{{$topicmostviewed->title}}</a>
+            <a href="{{route('topic.show',$topicmostviewed->slug)}}">{{$topicmostviewed->title}}</a>
         </div>
         <div class="divline"></div>
         @empty
@@ -36,7 +36,7 @@
         <h3>{{__('My Active Threads')}}</h3>
         @forelse($usertopics as $usertopic)
         <div class="blocktxt">
-            <a href="{{route('topic.show',$usertopic->id)}}">{{$usertopic->title}}</a>
+            <a href="{{route('topic.show',$usertopic->slug)}}">{{$usertopic->title}}</a>
         </div>
         <div class="divline"></div>
         @empty

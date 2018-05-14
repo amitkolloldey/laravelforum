@@ -22,9 +22,9 @@ class TopicController extends Controller
      */
     public function create()
     {
-        $topicview = Topic::select(DB::raw('topics.created_at,topics.id,topics.title, count(*) as aggregate'))
+        $topicview = Topic::select(DB::raw('topics.created_at,topics.slug,topics.id,topics.title, count(*) as aggregate'))
             ->join('page-views', 'topics.id', '=', 'page-views.visitable_id')
-            ->groupBy('topics.title','topics.id','topics.created_at')
+            ->groupBy('topics.title','topics.id','topics.slug','topics.created_at')
             ->orderBy('aggregate', 'desc')
             ->take(10)
             ->get();
@@ -54,24 +54,25 @@ class TopicController extends Controller
         $tags = explode(',',$request->tags);
         $topic = auth()->user()->topic()->create($request->all());
         $topic->tag($tags);
-        return redirect(route('topic.show',$topic->id))->withMessage(__('Topic Has Been Created Successfully!'));
+        return redirect(route('topic.show',$topic->slug))->withMessage(__('Topic Has Been Created Successfully!'));
     }
 
 
 
-    public function show(Topic $topic)
+    public function show($slug)
     {
-        $topicview = Topic::select(DB::raw('topics.created_at,topics.id,topics.title, count(*) as aggregate'))
+        $topicview = Topic::select(DB::raw('topics.created_at,topics.slug,topics.id,topics.title, count(*) as aggregate'))
             ->join('page-views', 'topics.id', '=', 'page-views.visitable_id')
-            ->groupBy('topics.title','topics.id','topics.created_at')
+            ->groupBy('topics.title','topics.id','topics.slug','topics.created_at')
             ->orderBy('aggregate', 'desc')
             ->take(10)
             ->get();
         $usertopics = Topic::where('user_id',Auth::id())->take(10)->get();
         $sureDelete = __('Are you sure want to Delete?');
-        $comments = Comment::where('commentable_id',$topic->id)->orderBy('id', 'asc')->paginate(20);
-        $topic = Topic::findOrFail($topic->id);
+
+        $topic = Topic::findBySlugOrFail($slug);
         $topic->addPageView();
+        $comments = Comment::where('commentable_id',$topic->id)->orderBy('id', 'asc')->paginate(20);
         $topicsCount = Topic::where('user_id', $topic->user->id)->get();
         if($topic->likes()->count() > 0){
             $like = Like::where('likeable_id', $topic->id)->first();
@@ -84,15 +85,16 @@ class TopicController extends Controller
         return view('topics.show',compact('topic','sureDelete','topicsCount','comments','liked_user','usertopics','topicview','tags'));
     }
 
-    public function edit(Topic $topic)
+    public function edit($slug)
     {
-        $topicview = Topic::select(DB::raw('topics.created_at,topics.id,topics.title, count(*) as aggregate'))
+        $topicview = Topic::select(DB::raw('topics.created_at,topics.slug,topics.id,topics.title, count(*) as aggregate'))
             ->join('page-views', 'topics.id', '=', 'page-views.visitable_id')
-            ->groupBy('topics.title','topics.id','topics.created_at')
+            ->groupBy('topics.title','topics.id','topics.slug','topics.created_at')
             ->orderBy('aggregate', 'desc')
             ->take(10)
             ->get();
         $usertopics = Topic::where('user_id',Auth::id())->take(10)->get();
+        $topic = Topic::findBySlugOrFail($slug);
         $this->authorize('update', $topic);
         $tagService = app(TagService::class);
         $tags = $tagService->getPopularTags(20);
@@ -102,7 +104,7 @@ class TopicController extends Controller
 
     public function update(Request $request, Topic $topic)
     {
-        $this->authorize('update', $topic);
+        $this->authorize('update',$topic);
         $this->validate($request,
             [
                 'title' => 'required|min:20|unique:topics,title,'.$topic->id,
@@ -114,7 +116,7 @@ class TopicController extends Controller
         $tags = explode(',',$request->tags);
         $topic->update($request->all());
         $topic->retag($tags);
-        return redirect(route('topic.show',$topic))->withMessage(__('Topic Has Been Updated Successfully!'));
+        return redirect(route('topic.show',$topic->slug))->withMessage(__('Topic Has Been Updated Successfully!'));
     }
 
 
@@ -151,13 +153,12 @@ class TopicController extends Controller
 
     public function sortByTags(Tag $tag)
     {
-        $sureDelete = __('Are you sure want to Delete?');
         $tag = Tag::findOrFail($tag->tag_id);
         $taggedtopics = Tag::findByName($tag->name)->topics;
 
-        $topicview = Topic::select(DB::raw('topics.created_at,topics.id,topics.title, count(*) as aggregate'))
+        $topicview = Topic::select(DB::raw('topics.created_at,topics.slug,topics.id,topics.title, count(*) as aggregate'))
             ->join('page-views', 'topics.id', '=', 'page-views.visitable_id')
-            ->groupBy('topics.title','topics.id','topics.created_at')
+            ->groupBy('topics.title','topics.id','topics.slug','topics.created_at')
             ->orderBy('aggregate', 'desc')
             ->take(10)
             ->get();

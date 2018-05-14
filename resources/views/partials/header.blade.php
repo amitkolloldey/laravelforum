@@ -83,7 +83,7 @@
                                             @endforeach
                                         </div>
                                         @endif
-                                        <a class="dropdown-item" href="{{ route('user.show',Auth::id()) }}">
+                                        <a class="dropdown-item" href="{{ route('user.show',Auth::user()->slug) }}">
                                             {{ __('Profile') }}
                                         </a>
                                         <a class="dropdown-item" href="{{ route('logout') }}"

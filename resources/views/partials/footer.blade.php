@@ -63,7 +63,7 @@
 
             }
         }).on('autocomplete:selected', function(event, suggestion, dataset) {
-                window.location.href = '{{url("topic/show")}}'+'/'+ suggestion.id;
+                window.location.href = '{{url("topic/show")}}'+'/'+ suggestion.slug;
         });
 </script>
 </body>

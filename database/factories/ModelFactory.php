@@ -12,10 +12,15 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
 use Cviebrock\EloquentTaggable\Models\Tag;
+use Illuminate\Support\Str;
 
 $factory->define(App\User::class, function (Faker\Generator $faker) {
+
+    $name = $faker->name;
+    $slug = Str::slug($name);
     return [
-        'name' => $faker->name,
+        'name' => $name,
+        'slug' => $slug,
         'email' => $faker->unique()->safeEmail,
         'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
         'remember_token' => str_random(10),
@@ -24,8 +29,11 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(App\Topic::class, function (Faker\Generator $faker) {
+    $title = $faker->sentence;
+    $slug = Str::slug($title);
     return [
-        'title' => $faker->sentence,
+        'title' => $title,
+        'slug' =>$slug,
         'details' => $faker->paragraph,
         'user_id' => rand(1, 50),
         'best_answer' => rand(1, 20),
