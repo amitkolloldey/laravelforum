@@ -24,7 +24,7 @@
         </div>
         <div class="posttext pull-left">
             <h2 class="lf_topic_title"><a href="{{route('topic.show',$topic->id)}}">{{$topic->title}}</a></h2>
-            <p>{!! str_limit(Michelf\Markdown::defaultTransform(strip_tags($topic->details)) ,100)  !!}</p>
+            {!! str_limit(strip_tags(Michelf\Markdown::defaultTransform($topic->details)) ,200) !!}
         </div>
         <div class="clearfix"></div>
     </div>

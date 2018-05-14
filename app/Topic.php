@@ -2,11 +2,15 @@
 
 namespace App;
 
+use Cviebrock\EloquentTaggable\Taggable;
 use CyrildeWit\PageViewCounter\Traits\HasPageViewCounter;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class Topic extends Model
 {
+    use Taggable;
+    use Searchable;
 
     use HasPageViewCounter;
 
@@ -15,21 +19,9 @@ class Topic extends Model
     ];
 
 
-
-    use HasPageViewCounter;
-
-
     public function user(){
         return $this->belongsTo('App\User');
     }
-
-
-    public function getDetailsAttribute($value){
-        $value =  str_replace('<code>','<code class="language-php"><xmp>',$value);
-        return str_replace('</code>','</xmp></code>',$value);
-    }
-
-
 
     /**
      * Get all of the Topic's comments.
@@ -47,4 +39,5 @@ class Topic extends Model
     {
         return $this->morphMany('App\Like', 'likeable');
     }
+
 }

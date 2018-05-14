@@ -19,10 +19,12 @@ class CommentNotification extends Notification
      * @return void
      */
     public $topic;
+    public $comment;
 
-    public function __construct($topic)
+    public function __construct($topic,$comment)
     {
         $this->topic = $topic;
+        $this->comment = $comment;
     }
 
     /**
@@ -61,7 +63,8 @@ class CommentNotification extends Notification
         return array(
            'topic'=>  $this->topic,
             'user'=> Auth::user(),
-            'created_at'=> Carbon::now()
+            'created_at'=> Carbon::now(),
+            'comment' => $this->comment
         );
     }
 

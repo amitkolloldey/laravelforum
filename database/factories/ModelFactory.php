@@ -10,6 +10,9 @@
 |
 */
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
+
+use Cviebrock\EloquentTaggable\Models\Tag;
+
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
@@ -35,6 +38,13 @@ $factory->define(App\Comment::class, function (Faker\Generator $faker) {
         'user_id' => rand(1, 50),
         'commentable_id' => rand(1, 100),
         'commentable_type' => $faker->randomElement(['App\Comment', 'App\Topic']),
+    ];
+});
+
+$factory->define(Tag::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->realText(2,1),
+        'normalized' => $faker->realText(2,1),
     ];
 });
 

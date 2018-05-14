@@ -72,5 +72,6 @@
                 $(elem).addClass(' liked');
                 location.reload();
             });}
+
     </script>
 @endsection

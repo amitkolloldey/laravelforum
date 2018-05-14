@@ -19,5 +19,8 @@
         "popper.js": "^1.12",
         "tributejs": "^3.2.0",
         "vue": "^2.5.7"
+    },
+    "dependencies": {
+        "vue-instantsearch": "^1.6.0"
     }
 }
