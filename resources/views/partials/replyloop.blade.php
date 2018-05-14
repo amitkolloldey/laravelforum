@@ -24,7 +24,7 @@
                             {{csrf_field()}}
                             {{method_field('DELETE')}}
                             <input type="hidden" name="comment_id" value="{{$comment->id}}">
-                            <input type="hidden" name="topic_id" value="{{$topic->id}}">
+                            <input type="hidden" name="topic_slug" value="{{$topic->slug}}">
                             <button type="submit" onclick="return confirm('{{$sureDelete}}')"><i class="fa fa-trash"></i></button>
                         </form>
                     </div>

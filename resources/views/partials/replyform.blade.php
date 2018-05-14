@@ -18,7 +18,7 @@
                     {{method_field('POST')}}
                     <div class="postinfobot">
                         <textarea class="form-control" id="replybody" rows="5" name="replybody" data-provide="markdown" data-iconlibrary="fa" data-hidden-buttons="cmdPreview">{{old('replybody')}}</textarea>
-                        <input type="hidden" value="{{$topic->id}}" name="topic_id">
+                        <input type="hidden" value="{{$topic->slug}}" name="topic_slug">
                         <div class="pull-right postreply">
                             <div class="pull-left"><button type="submit" class="btn btn-primary">{{__('Post Reply')}}</button></div>
                             <div class="clearfix"></div>

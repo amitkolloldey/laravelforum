@@ -22,6 +22,7 @@
                     {{method_field('PATCH')}}
                     <div class="form-group">
                        <textarea class="form-control" id="editcommentbody" rows="10" name="editcommentbody" data-provide="markdown" data-iconlibrary="fa" data-hidden-buttons="cmdPreview">{{$comment->getOriginal()['body']}}</textarea>
+                        <input type="hidden" value="{{$topic->slug}}" name="topic_slug">
                     </div>
                     <div class="form-group">
                         <input type="submit" class="btn btn-primary" value="{{__('Update Comment')}}">
