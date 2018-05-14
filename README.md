@@ -15,5 +15,14 @@ Laravel Forum Platform.
 - Sorting
 - More...
 
-## Login Page
-![enter image description here](https://imagebin.ca/41l5liwQ2Nqv/login.png "Login Page")
+![Login Page](https://imagebin.ca/41l5liwQ2Nqv/login.png "Login Page")
+
+![Profile Page](https://imagebin.ca/41l8BHC0oKjP/profile.png "Profile Page")
+
+![Create Page](https://imagebin.ca/41lIkvyxW9tX/create.png "Create Page")
+
+![Show Page](https://imagebin.ca/41lJm0CWZNsm/show.png "Show Page")
+
+![Create Comment](https://imagebin.ca/41lK7EVp7ZI9/comment.png "Create Comment")
+
+![Reply To Comment](https://imagebin.ca/41lKXSXmVlaj/reply.png "Reply To Comment")
