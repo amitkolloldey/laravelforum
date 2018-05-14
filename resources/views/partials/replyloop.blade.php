@@ -2,7 +2,7 @@
     <div class="topwrap">
         <div class="posttext">
             <div class="avatar">
-                <a href="{{route('user.show',$reply->user_id)}}">
+                <a href="{{route('user.show',$reply->user->slug)}}">
                     <img src="{{ Gravatar::fallback(url('uploads/avater.png'))->get($reply->user->email) }}"
                          alt="{{$reply->user->name}}">
                     <strong class="lf_commenter_name">{{$reply->user->name .' '}} <span>{{ __('Replied')}}</span></strong>

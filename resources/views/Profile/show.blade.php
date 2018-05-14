@@ -21,7 +21,7 @@
                              <h3>{{__('Topics Created')}}</h3>
                              <ul>
                                 @forelse($topics as $topic)
-                                    <li><a href="{{route('topic.show',$topic->id)}}">{{$topic->title}}</a>
+                                    <li><a href="{{route('topic.show',$topic->slug)}}">{{$topic->title}}</a>
                                         <span> | </span>
                                         <span>
                                             {{__('Created On: '). Carbon\Carbon::createFromFormat( 'Y-m-d H:i:s',$topic->created_at )->format("F j, Y")}}
@@ -38,7 +38,7 @@
                              <ul>
                                 @forelse($commented_topics as $commented_topic)
                                     <li>
-                                        <a href="{{route('topic.show',$commented_topic->id)}}">
+                                        <a href="{{route('topic.show',$commented_topic->slug)}}">
                                             {!! $commented_topic->title !!}
                                         </a>
                                         <span> | </span>
@@ -63,7 +63,7 @@
                              <ul>
                                 @forelse($liked_topics as $liked_topic)
                                     <li>
-                                        <a href="{{route('topic.show',$liked_topic->id)}}">
+                                        <a href="{{route('topic.show',$liked_topic->slug)}}">
                                             {{ $liked_topic->title }}
                                         </a>
                                     </li>
@@ -77,6 +77,5 @@
                  </div>
              </div>
         </div>
-    </div>
 @stop
 

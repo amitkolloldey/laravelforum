@@ -2,7 +2,7 @@
     <div class="wrap-ut pull-left">
         <div class="userinfo pull-left">
             <div class="avatar">
-                <a href="{{route('user.show',$topic->user_id)}}"><img src="{{ Gravatar::get($topic->user->email,
+                <a href="{{route('user.show',$topic->user->slug)}}"><img src="{{ Gravatar::get($topic->user->email,
                 'default') }}" alt="{{$topic->user->name}}"></a>
             </div>
             @can('update',$topic)
@@ -23,15 +23,15 @@
             @endcan
         </div>
         <div class="posttext pull-left">
-            <h2 class="lf_topic_title"><a href="{{route('topic.show',$topic->id)}}">{{$topic->title}}</a></h2>
-            <p>{!! str_limit(Michelf\Markdown::defaultTransform(strip_tags($topic->details)) ,100)  !!}</p>
+            <h2 class="lf_topic_title"><a href="{{route('topic.show',$topic->slug)}}">{{$topic->title}}</a></h2>
+            {!! str_limit(strip_tags(Michelf\Markdown::defaultTransform($topic->details)) ,200) !!}
         </div>
         <div class="clearfix"></div>
     </div>
     <div class="postinfo pull-left">
         <div class="comments">
             <div class="commentbg">
-                <a href="{{route('topic.show',$topic->id).'#lf_comments_wrap'}}">{{$topic->comments->count()}}</a>
+                <a href="{{route('topic.show',$topic->slug).'#lf_comments_wrap'}}">{{$topic->comments->count()}}</a>
                 <div class="mark"></div>
             </div>
         </div>

@@ -26,6 +26,10 @@
                               data-iconlibrary="fa" data-hidden-buttons="cmdPreview">{{$topic->getOriginal()['details']}}</textarea>
                 </div>
                 <div class="form-group">
+                    <label for="tags">{{__('Tags')}}</label>
+                    <input type="text" class="form-control" id="tags" name="tags" value="{{$topic->tagList}}" data-role="tagsinput">
+                </div>
+                <div class="form-group">
                     {!! NoCaptcha::display(['data-theme' => 'dark']) !!}
                 </div>
                 <div class="form-group">
@@ -37,10 +41,34 @@
 @stop
 
 @section('sidebar')
-    @include('partials.sidebar',['usertopics' => $usertopics,'topicview' => $topicview])
+    @include('partials.sidebar',['usertopics' => $usertopics,'topicview' => $topicview,'tags'=>$tags])
 @stop
 
 @section('styles')
+    <link rel="stylesheet" href="{{asset('front/tagsinput.css')}}">
+    <link rel="stylesheet" href="{{asset('front/typeaheadjs.css')}}">
     {!! NoCaptcha::renderJs() !!}
 @stop
+@section('scripts')
+    <script src="{{asset('front/tagsinput.js')}}"></script>
+    <script src="{{asset('front/typeahead.js')}}"></script>
+    <script>
 
+        var tags = new Bloodhound({
+            datumTokenizer: Bloodhound.tokenizers.whitespace,
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            prefetch: {
+                url: "{{url('tag/names')}}",
+                cache: false
+            }
+        });
+        tags.initialize();
+
+        $('#tags').tagsinput({
+            typeaheadjs: {
+                name: 'tags',
+                source: tags.ttAdapter()
+            }
+        });
+    </script>
+@stop

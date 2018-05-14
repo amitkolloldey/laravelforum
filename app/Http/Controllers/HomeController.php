@@ -2,23 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Comment;
 use App\Topic;
-use Illuminate\Http\Request;
+use Cviebrock\EloquentTaggable\Services\TagService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
     public function home(){
-        $topicview = Topic::select(DB::raw('topics.created_at,topics.id,topics.title, count(*) as aggregate'))
+        $topicview = Topic::select(DB::raw('topics.created_at,topics.slug,topics.id,topics.title, count(*) as aggregate'))
             ->join('page-views', 'topics.id', '=', 'page-views.visitable_id')
-            ->groupBy('topics.title','topics.id','topics.created_at')
+            ->groupBy('topics.title','topics.id','topics.slug','topics.created_at')
             ->orderBy('aggregate', 'desc')
-            ->paginate(10);
-        $usertopics = Topic::where('user_id',Auth::id())->paginate(5);
+            ->take(10)
+            ->get();
+        $usertopics = Topic::where('user_id',Auth::id())->take(10)->get();
         $sureDelete = __('Are you sure want to Delete?');
-        $topics = Topic::orderBy('id', 'desc')->paginate(10);
-        return view('home',compact('topics','sureDelete','usertopics','topicview'));
+        $topics = Topic::orderBy('id', 'asc')->paginate(10);
+        $tagService = app(TagService::class);
+        $tags = $tagService->getPopularTags(20);
+        return view('home',compact('topics','sureDelete','usertopics','topicview','tags'));
     }
 }

@@ -2,7 +2,8 @@
     <div class="topwrap">
         <div class="posttext">
             <div class="avatar">
-                <a href="{{route('user.show',$comment->user_id)}}"><img src="{{ Gravatar::fallback(url('uploads/avater
+                <a href="{{route('user.show',$comment->user->slug)}}"><img src="{{ Gravatar::fallback(url
+                ('uploads/avater
                 .png'))->get
                 ($comment->user->email) }}" alt="{{$comment->user->name}}">
                 <strong class="lf_commenter_name">{{$comment->user->name .' '}} <span>{{ __('said')}}</span></strong>

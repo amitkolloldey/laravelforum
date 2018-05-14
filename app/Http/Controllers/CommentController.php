@@ -27,7 +27,7 @@ class CommentController extends Controller
         $comment->user_id = Auth::user()->id;
         $comment = $topic->comments()->save($comment);
         if($comment->user_id != $topic->user_id){
-            $topic->user->notify(new CommentNotification($topic));
+            $topic->user->notify(new CommentNotification($topic,$comment));
         }
         return redirect(route('topic.show',$topic->id.'#commentno'.$comment->id));
     }

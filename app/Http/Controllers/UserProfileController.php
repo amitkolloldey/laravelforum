@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Comment;
-use App\Like;
 use App\Topic;
 use App\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class UserProfileController extends Controller
 {
-    public function show(User $user){
+    public function show($slug){
+        $user = User::findBySlugOrFail($slug);
         $topics = Topic::where('user_id',$user->id)->orderBy('id', 'asc')->paginate(5);
         $commented_topics = DB::table('topics')
             ->join('comments', 'comments.commentable_id', '=', 'topics.id')

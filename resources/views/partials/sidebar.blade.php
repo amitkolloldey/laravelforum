@@ -2,17 +2,17 @@
 
     <!-- -->
     <div class="sidebarblock">
-        <h3>Categories</h3>
+        <h3>{{__('Top Tags')}}</h3>
         <div class="divline"></div>
         <div class="blocktxt">
             <ul class="cats">
-                <li><a href="#">Trading for Money <span class="badge pull-right">20</span></a></li>
-                <li><a href="#">Vault Keys Giveway <span class="badge pull-right">10</span></a></li>
-                <li><a href="#">Misc Guns Locations <span class="badge pull-right">50</span></a></li>
-                <li><a href="#">Looking for Players <span class="badge pull-right">36</span></a></li>
-                <li><a href="#">Stupid Bugs &amp; Solves <span class="badge pull-right">41</span></a></li>
-                <li><a href="#">Video &amp; Audio Drivers <span class="badge pull-right">11</span></a></li>
-                <li><a href="#">2K Official Forums <span class="badge pull-right">5</span></a></li>
+                @forelse($tags as $tag)
+                <li><a href="{{route('tag.topics',$tag->tag_id)}}">{{$tag->name}} <span class="badge
+                pull-right">{{$tag->topics->count()
+                }}</span></a></li>
+                @empty
+                <li>{{__('No Tags Found!')}}</li>
+                @endforelse
             </ul>
         </div>
     </div>
@@ -21,7 +21,7 @@
         <h3>{{__('Most Popular')}}</h3>
         @forelse($topicview as $topicmostviewed)
         <div class="blocktxt">
-            <a href="{{route('topic.show',$topicmostviewed->id)}}">{{$topicmostviewed->title}}</a>
+            <a href="{{route('topic.show',$topicmostviewed->slug)}}">{{$topicmostviewed->title}}</a>
         </div>
         <div class="divline"></div>
         @empty
@@ -30,14 +30,13 @@
         </div>
         <div class="divline"></div>
         @endforelse
-        {{$topicview->fragment('lf_most_popular_topics')->links()}}
     </div>
 @if($usertopics->count()>0)
     <div class="sidebarblock" id="lf_user_active_topics">
         <h3>{{__('My Active Threads')}}</h3>
         @forelse($usertopics as $usertopic)
         <div class="blocktxt">
-            <a href="{{route('topic.show',$usertopic->id)}}">{{$usertopic->title}}</a>
+            <a href="{{route('topic.show',$usertopic->slug)}}">{{$usertopic->title}}</a>
         </div>
         <div class="divline"></div>
         @empty
@@ -46,7 +45,6 @@
         </div>
         <div class="divline"></div>
         @endforelse
-        {{$usertopics->fragment('lf_user_active_topics')->links()}}
     </div>
 @endif
 </div>
