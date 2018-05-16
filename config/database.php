@@ -1,10 +1,4 @@
 <?php
-$dbopts = parse_url(getenv('DATABASE_URL'));
-$user = $dbopts["user"];
-$password = $dbopts["pass"];
-$host = $dbopts["host"];
-$port = $dbopts["port"];
-$dbname = ltrim($dbopts["path"],'/');
 
 return [
 
@@ -75,11 +69,11 @@ return [
 
         'pgsql_production' => [
             'driver' => 'pgsql',
-            'host' => $host,
-            'port' => $port ,
-            'database' => $dbname,
-            'username' => $user,
-            'password' => $password,
+            'host' => env('DB_HOST', 'ec2-54-83-19-244.compute-1.amazonaws.com'),
+            'port' => env('DB_PORT', '5432'),
+            'database' => env('DB_DATABASE', 'd27taapk5ao0ao'),
+            'username' => env('DB_USERNAME', 'vgzavjwdcabdln'),
+            'password' => env('DB_PASSWORD', '4230eeab88c9b63c2b19fea89390d67afab3b4ae7f69a1a089982a6e6c5b653f'),
             'charset' => 'utf8',
             'prefix' => '',
             'schema' => 'public',
